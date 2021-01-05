@@ -13,14 +13,20 @@
 
 <body>
 
-  <div class="w3-container">
+  <div id="loadFile" class="w3-container" style="display: block;">
     <div class="w3-row w3-margin-top w3-margin-bottom">
       <div class="w3-col m3">
         <p></p>
       </div>
-      <div class="w3-col m6 w3-border w3-round-small">
-        <input style="margin: 5px 0px 0px 5px;" class="form-control te" type="file" id="input" accept=".xls,.xlsx">
-        <button class="w3-button w3-right w3-green" id="button">Convert</button>
+      <div class="w3-col m6">
+        <h2 id="pharStartPage">Ehhi non ti dimentichi nulla</h2>
+        <p id="txtStartPage"><i>Per far funzionare questo bellisimo e utile script devi aggiungere LCL che ti
+            interessano. Per farlo devi andare in "Controllo attività" -> "Riapilogo attività" e fare la
+            ricerca di ogni LCL interressata.</i></p>
+        <div class="w3-col m12 w3-border w3-round-small">
+          <input style="margin: 5px 0px 0px 5px;" class="form-control te" type="file" id="input" accept=".xls,.xlsx">
+          <button class="w3-button w3-right w3-green" id="button">Convert</button>
+        </div>
       </div>
       <div class="w3-col m3">
         <p></p>
@@ -28,7 +34,7 @@
     </div>
   </div>
 
-  <div id="selectCN" class="w3-container">
+  <div id="selectLCL" class="w3-container" style="display: none;">
     <div class="w3-row w3-margin-top w3-margin-bottom">
       <div class="w3-col m3">
         <p></p>
@@ -36,15 +42,9 @@
       <div class="w3-col m6">
         <h2>LCL</h2>
         <p><i>Elimina LCL, premendo su "x":</i></p>
-        <div class="w3-col w3-center w3-margin-bottom">
+        <div class="w3-col w3-centerDELETE w3-margin-bottom">
           <ul id="addListCN" class="w3-ul w3-card-4">
             <!-- Injection JavaScript -->
-            <li class="w3-display-container" id="8400141787"><b>8400141787</b><!--<i class="w3-tiny noStamp"> (MF-TF)</i>--><span
-                onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">×</span></li>
-            <li class="w3-display-container" id="8400149083"><b>8400149083</b><!--<i class="w3-tiny noStamp"> (M2)</i>--><span
-                onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">×</span></li>
-                <li class="w3-display-container" id="8400141787"><b>8400141787</b><!--<i class="w3-tiny noStamp"> (TF-15/30)</i>--><span
-                  onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">×</span></li>
           </ul>
         </div>
         <p id="txtRemoveList" class="w3-margin-top" style="display: none;"><i>Agiungi il contratto, premendosu
@@ -54,8 +54,7 @@
             <!-- Injection JavaScript -->
           </ul>
         </div>
-        <div class="w3-bar"><button class="w3-button w3-left w3-dark-grey"
-            onclick="document.querySelector('#tabPerCent').remove();">&laquo; Close</button><button
+        <div class="w3-bar"><button class="w3-button w3-left w3-dark-grey" onclick="back();">&laquo; Back</button><button
             class="w3-button w3-left w3-light-grey" onclick="options();">Options</button><button
             class="w3-button w3-right w3-green" onclick="calcPerCent();">Next&raquo;</button></div>
       </div>
@@ -79,6 +78,14 @@
           document.querySelector("#txtRemoveList").style.display = "none";
         }
       }
+
+      window.back = function () {
+        document.querySelector("#addListCN").innerHTML = "<!-- Injection JavaScript -->";
+        document.querySelector("#removeListCN").innerHTML = "<!-- Injection JavaScript -->";
+
+        document.querySelector('#selectLCL').style.display = 'none';
+        document.querySelector('#loadFile').style.display = 'block';
+      }
     </script>
   </div>
 
@@ -96,7 +103,14 @@
 
 
 
-
+<!--
+              <li class="w3-display-container" id="8400141787"><b>8400141787</b><i class="w3-tiny noStamp"> (MF-TF)</i><span
+                onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">×</span></li>
+            <li class="w3-display-container" id="8400149083"><b>8400149083</b><i class="w3-tiny noStamp"> (M2)</i><span
+                onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">×</span></li>
+                <li class="w3-display-container" id="8400141787"><b>8400141787</b><i class="w3-tiny noStamp"> (TF-15/30)</i><span
+                  onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">×</span></li>
+-->
 
 
 
