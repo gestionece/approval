@@ -118,7 +118,7 @@ function Calc(data) {
                 }
             }
         }
-        console.log(LCLs);
+        //console.log(LCLs);
         //document.getElementById("jsondata").innerHTML = JSON.stringify(LCLs, undefined, 4);
 
         loadData(LCLs);
