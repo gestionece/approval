@@ -118,7 +118,7 @@ function Calc(data) {
                 }
             }
         }
-        //console.log(LCLs);
+        console.log(LCLs);
         //document.getElementById("jsondata").innerHTML = JSON.stringify(LCLs, undefined, 4);
 
         loadData(LCLs);
@@ -132,9 +132,7 @@ function loadData(data) {
             data.sort(function (a, b) {
                 return a.LCL - b.LCL;
             });
-
-            console.log(data[i].LCL);
-
+            
             var LCLexist = false;
             for (let j = 0; j < document.querySelector("#addListCN").childElementCount; j++) {
                 if (document.querySelector("#addListCN").children[j].id == data[i].LCL) {
