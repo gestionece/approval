@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Convert excel to JSON Object</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+</head>
+
+<body>
+
+  <div class="w3-container">
+    <div class="w3-row w3-margin-top w3-margin-bottom">
+      <div class="w3-col m3">
+        <p></p>
+      </div>
+      <div class="w3-col m6 w3-border w3-round-small">
+        <input style="margin: 5px 0px 0px 5px;" class="form-control te" type="file" id="input" accept=".xls,.xlsx">
+        <button class="w3-button w3-right w3-green" id="button">Convert</button>
+      </div>
+      <div class="w3-col m3">
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="selectCN" class="w3-container">
+    <div class="w3-row w3-margin-top w3-margin-bottom">
+      <div class="w3-col m3">
+        <p></p>
+      </div>
+      <div class="w3-col m6">
+        <h2>LCL</h2>
+        <p><i>Elimina LCL, premendo su "x":</i></p>
+        <div class="w3-col w3-center w3-margin-bottom">
+          <ul id="addListCN" class="w3-ul w3-card-4">
+            <!-- Injection JavaScript -->
+            <li class="w3-display-container" id="8400141787"><b>8400141787</b><!--<i class="w3-tiny noStamp"> (MF-TF)</i>--><span
+                onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">×</span></li>
+            <li class="w3-display-container" id="8400149083"><b>8400149083</b><!--<i class="w3-tiny noStamp"> (M2)</i>--><span
+                onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">×</span></li>
+                <li class="w3-display-container" id="8400141787"><b>8400141787</b><!--<i class="w3-tiny noStamp"> (TF-15/30)</i>--><span
+                  onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">×</span></li>
+          </ul>
+        </div>
+        <p id="txtRemoveList" class="w3-margin-top" style="display: none;"><i>Agiungi il contratto, premendosu
+            "+":</i></p>
+        <div class="w3-col w3-center w3-margin-bottom">
+          <ul id="removeListCN" class="w3-ul w3-card-4">
+            <!-- Injection JavaScript -->
+          </ul>
+        </div>
+        <div class="w3-bar"><button class="w3-button w3-left w3-dark-grey"
+            onclick="document.querySelector('#tabPerCent').remove();">&laquo; Close</button><button
+            class="w3-button w3-left w3-light-grey" onclick="options();">Options</button><button
+            class="w3-button w3-right w3-green" onclick="calcPerCent();">Next&raquo;</button></div>
+      </div>
+      <div class="w3-col m3">
+        <p></p>
+      </div>
+    </div>
+    <script>
+      window.changeCN = function (element) {
+        if (element.parentElement.id == "addListCN" && document.querySelector('#addListCN').children.length > 1) {
+          element.lastChild.innerHTML = "&plus;";
+          document.querySelector("#removeListCN").appendChild(element);
+        } else if (element.parentElement.id == "removeListCN") {
+          element.lastChild.innerHTML = "&times;";
+          document.querySelector("#addListCN").appendChild(element);
+        }
+
+        if (document.querySelector('#removeListCN').children.length > 0) {
+          document.querySelector("#txtRemoveList").style.display = "block";
+        } else {
+          document.querySelector("#txtRemoveList").style.display = "none";
+        }
+      }
+    </script>
+  </div>
+
+  <div class="w3-col m12">
+    <pre id="jsondata"></pre>
+  </div>
+
+</body>
+<script src="excel.js"></script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+<!--
+<!DOCTYPE html>
+https://github.com/SheetJS/sheetjs
+https://usefulangle.com/post/193/javascript-read-local-file
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <input type="file" id="file-input" />
+  <button id="read-button">Read File</button>
+  <pre id="file-contents"></pre>
+
+  <script>
+    document.querySelector("#read-button").addEventListener('click', function () {
+      let file = document.querySelector("#file-input").files[0];
+      let reader = new FileReader();
+      reader.addEventListener('load', function (e) {
+        let text = e.target.result;
+        document.querySelector("#file-contents").textContent = text;
+      });
+      reader.readAsText(file);
+    });
+  </script>
+
+</body>
+
+</html>
+-->
