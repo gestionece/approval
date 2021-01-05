@@ -132,7 +132,7 @@ function loadData(data) {
             data.sort(function (a, b) {
                 return a.LCL - b.LCL;
             });
-            
+
             var LCLexist = false;
             for (let j = 0; j < document.querySelector("#addListCN").childElementCount; j++) {
                 if (document.querySelector("#addListCN").children[j].id == data[i].LCL) {
@@ -144,7 +144,29 @@ function loadData(data) {
                 var element = document.createElement("li");
                 element.classList.add("w3-display-container"); //<i class="w3-tiny"> (update 3 day ago)</i>
                 element.id = data[i].LCL;
-                element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + data[i].CN + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+
+                var typeLCL = "NaN";
+                switch (data[i].TYPE) {
+                    case "M2":
+                        typeLCL = "M2";
+                        break;
+                    case "MF-R":
+                        typeLCL = "MF-TF Recuperi";
+                        break;
+                    case "TF-R":
+                        typeLCL = "TF-15/30 Recuperi";
+                        break;
+                    case "MF":
+                        typeLCL = "MF-TF";
+                        break;
+                    case "TF":
+                        typeLCL = "TF-15/30";
+                        break;
+                    default:
+                        break;
+                }
+
+                element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (Contratto:' + data[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
                 document.querySelector("#addListCN").appendChild(element);
             }
         }
