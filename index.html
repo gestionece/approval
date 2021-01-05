@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Convert excel to JSON Object</title>
+  <title>Beneficit LCL</title>
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
@@ -23,11 +23,10 @@
         <p id="txtStartPage"><i>Per far funzionare questo bellisimo e utile script devi aggiungere LCL che ti
             interessano. Per farlo devi andare in "Controllo attività" -> "Riapilogo attività" e fare la
             ricerca di ogni LCL interressata.</i></p>
-        <div class="w3-col m12 w3-border w3-round-small">
+        <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
           <input style="margin: 5px 0px 0px 5px;" class="form-control te" type="file" id="input" accept=".xls,.xlsx">
-          <button class="w3-button w3-right w3-green" id="button">Convert</button>
+          <button class="w3-button w3-right w3-green" onclick="move()" id="button">Convert</button>
         </div>
-      </div>
       <div class="w3-col m3">
         <p></p>
       </div>
@@ -54,8 +53,8 @@
             <!-- Injection JavaScript -->
           </ul>
         </div>
-        <div class="w3-bar"><button class="w3-button w3-left w3-dark-grey" onclick="back();">&laquo; Back</button><button
-            class="w3-button w3-left w3-light-grey" onclick="options();">Options</button><button
+        <div class="w3-bar"><button class="w3-button w3-left w3-dark-grey" onclick="back();">&laquo;
+            Back</button><button class="w3-button w3-left w3-light-grey" onclick="options();">Options</button><button
             class="w3-button w3-right w3-green" onclick="calcPerCent();">Next&raquo;</button></div>
       </div>
       <div class="w3-col m3">
