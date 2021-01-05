@@ -1,5 +1,5 @@
 let selectedFile;
-//console.log(window.XLSX);
+console.log(window.XLSX);
 document.getElementById('input').addEventListener("change", (event) => {
     selectedFile = event.target.files[0];
 })
@@ -11,8 +11,10 @@ document.getElementById('button').addEventListener("click", () => {
     if (selectedFile) {
         let fileReader = new FileReader();
         fileReader.readAsBinaryString(selectedFile);
+
         fileReader.onload = (event) => {
             let data = event.target.result;
+
             let workbook = XLSX.read(data, { type: "binary" });
             //console.log(workbook);
             workbook.SheetNames.forEach(sheet => {
