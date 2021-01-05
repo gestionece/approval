@@ -119,6 +119,39 @@ function Calc(data) {
             }
         }
         console.log(LCLs);
-        document.getElementById("jsondata").innerHTML = JSON.stringify(LCLs, undefined, 4);
+        //document.getElementById("jsondata").innerHTML = JSON.stringify(LCLs, undefined, 4);
+
+        loadData(LCLs);
+    }
+}
+
+function loadData(data) {
+    if (data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
+
+            data.sort(function (a, b) {
+                return a.LCL - b.LCL;
+            });
+
+            console.log(data[i].LCL);
+
+            var LCLexist = false;
+            for (let j = 0; j < document.querySelector("#addListCN").childElementCount; j++) {
+                if (document.querySelector("#addListCN").children[j].id == data[i].LCL) {
+                    LCLexist = true;
+                }
+            }
+
+            if (LCLexist == false) {
+                var element = document.createElement("li");
+                element.classList.add("w3-display-container"); //<i class="w3-tiny"> (update 3 day ago)</i>
+                element.id = data[i].LCL;
+                element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + data[i].CN + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+                document.querySelector("#addListCN").appendChild(element);
+            }
+        }
+
+        document.querySelector("#loadFile").style.display = "none";
+        document.querySelector("#selectLCL").style.display = "block";
     }
 }
