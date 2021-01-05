@@ -28,11 +28,20 @@ document.getElementById('button').addEventListener("click", () => {
 function Calc(data) {
     if (data[0].LCL !== undefined) {
 
-        var typelcl = "MF-TF";
-        if (data[1]["Eneltel"].substring(8, 9) == "A") {
+        var typelcl = "NaN";
+        if (data[1]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[1]["CIT"].localeCompare("525") == 0) {
             typelcl = "M2";
-        } else if (data[1]["Codice misuratore in opera"].substring(4, 5) == "F") {
-            typelcl = "TF-15/30";
+        } else if (data[1]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[1]["CIT"].localeCompare("521") == 0) {
+            typelcl = "MF-R";
+        }
+        else if (data[1]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[1]["CIT"].localeCompare("523") == 0) {
+            typelcl = "TF-R";
+        }
+        else if (data[1]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[1]["CIT"].localeCompare("520") == 0) {
+            typelcl = "MF";
+        }
+        else if (data[1]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[1]["CIT"].localeCompare("523") == 0) {
+            typelcl = "TF";
         }
 
         let LCLs = [{
@@ -69,11 +78,20 @@ function Calc(data) {
                 if (LCLexist == false) {
                     LCLexist = false;
 
-                    var typelcl = "MF-TF";
-                    if (data[i]["Eneltel"].substring(8, 9) == "A") {
+                    var typelcl = "NaN";
+                    if (data[i]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[i]["CIT"].localeCompare("525") == 0) {
                         typelcl = "M2";
-                    } else if (data[i]["Codice misuratore in opera"].substring(4, 5) == "F") {
-                        typelcl = "TF-15/30";
+                    } else if (data[i]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[i]["CIT"].localeCompare("521") == 0) {
+                        typelcl = "MF-R";
+                    }
+                    else if (data[i]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[i]["CIT"].localeCompare("523") == 0) {
+                        typelcl = "TF-R";
+                    }
+                    else if (data[i]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[i]["CIT"].localeCompare("520") == 0) {
+                        typelcl = "MF";
+                    }
+                    else if (data[i]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[i]["CIT"].localeCompare("523") == 0) {
+                        typelcl = "TF";
                     }
 
                     let LCL = {
