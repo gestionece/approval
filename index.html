@@ -9,6 +9,12 @@
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+
+  <style>
+    *:focus {
+      outline: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -24,8 +30,8 @@
             interessano. Per farlo devi andare in "Controllo attività" -> "Riapilogo attività" e fare la
             ricerca di ogni LCL interressata.</i></p>
         <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
-          <input style="margin: 5px 0px 0px 5px;" class="form-control te" type="file" id="input" accept=".xls,.xlsx">
-          <button class="w3-button w3-right w3-green" id="button">Convert</button>
+          <input style="margin: 5px 0px 0px 5px;" type="file" id="input" accept=".xls,.xlsx">
+          <button class="w3-button w3-right w3-green" id="button">Load</button>
         </div>
       </div>
       <div class="w3-col m3">
@@ -85,6 +91,160 @@
 
         document.querySelector('#selectLCL').style.display = 'none';
         document.querySelector('#loadFile').style.display = 'block';
+      }
+    </script>
+  </div>
+
+  <div id="optionsTab" class="w3-container" style="display: none;">
+    <div class="w3-row w3-margin-top w3-margin-bottom">
+      <div class="w3-col m3">
+        <p></p>
+      </div>
+      <div class="w3-col m6">
+        <div id="optionsList" class="w3-col w3-margin-bottom">
+          <!-- Injection JavaScript -->
+          <ul class="w3-ul w3-card-4 w3-margin-top w3-margin-bottom">
+            <!-- Injection JavaScript -->
+            <li>
+              <h2>Euro/Punto</h2>
+            </li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
+          </ul>
+          <ul class="w3-ul w3-card-4 w3-margin-top w3-margin-bottom">
+            <!-- Injection JavaScript -->
+            <li>
+              <h2>CE/Punto</h2>
+            </li>
+            <li class="w3-display-container"><b>sostituzione normale:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
+            <li class="w3-display-container"><b>accesso a vuoto:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
+            <li class="w3-display-container"><b>sostituzione trifase:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
+            <li class="w3-display-container"><b>sostituzione M2:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
+            <li class="w3-display-container"><b>sostituzione interni:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
+            <li class="w3-display-container"><b>sostituzione normale con ripasso mese 1:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
+            <li class="w3-display-container"><b>sostituzione normale con ripasso mese 2:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
+            <li class="w3-display-container"><b>sostituzione normale con ripasso mese 3:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
+            <li class="w3-display-container"><b>sostituzione trifase:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
+            <li class="w3-display-container"><b>sostituzione normale:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
+            <li class="w3-display-container"><b>accesso a vuoto:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
+            <li class="w3-display-container"><b>sostituzione trifase:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
+          </ul>
+        </div>
+        <div class="w3-bar noStamp"><button class="w3-button w3-left w3-dark-grey" onclick="backOp();">&laquo;
+            Back</button><button class="w3-button w3-right w3-green"
+            onclick="document.getElementById('modalNewCN').style.display='block'">Add Contratto &plus;</button></div>
+        <div class="w3-col m3">
+          <p></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalEditOp" class="w3-modal">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+        <div class="w3-center"><br>
+          <span onclick="document.getElementById('modalEditOp').style.display='none'"
+            class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+        </div>
+
+        <div class="w3-container">
+          <div class="w3-section">
+            <label><b>Euro/Punto</b></label>
+            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Euro" name="usrname" required>
+          </div>
+        </div>
+
+        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+          <div class="w3-bar noStamp"><button class="w3-button w3-left w3-red"
+              onclick="document.getElementById('modalEditOp').style.display='none'">Cancel</button><button
+              class="w3-button w3-right w3-green" onclick="">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="modalNewCN" class="w3-modal">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+        <div class="w3-center"><br>
+          <span onclick="document.getElementById('modalNewCN').style.display='none'"
+            class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+        </div>
+
+        <div class="w3-container">
+          <div class="w3-section">
+            <label><b>Euro/Punto</b></label>
+            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Euro" name="usrname"
+              required>
+          </div>
+          <div class="w3-section">
+            <label><b>Euro/Punto</b></label>
+            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Euro" name="usrname"
+              required>
+          </div>
+          <div class="w3-section">
+            <label><b>Euro/Punto</b></label>
+            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Euro" name="usrname"
+              required>
+          </div>
+          <div class="w3-section">
+            <label><b>Euro/Punto</b></label>
+            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Euro" name="usrname"
+              required>
+          </div>
+        </div>
+
+        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+          <div class="w3-bar noStamp"><button class="w3-button w3-left w3-red"
+              onclick="document.getElementById('modalNewCN').style.display='none'">Cancel</button><button
+              class="w3-button w3-right w3-green" onclick="">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      window.options = function () {
+        document.querySelector('#selectLCL').style.display = 'none';
+        document.querySelector('#optionsTab').style.display = 'block';
+      }
+
+      window.backOp = function () {
+        document.querySelector('#optionsTab').style.display = 'none';
+        document.querySelector('#selectLCL').style.display = 'block';
       }
     </script>
   </div>
