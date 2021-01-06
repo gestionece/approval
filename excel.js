@@ -4,7 +4,7 @@ document.getElementById('input').addEventListener("change", (event) => {
     selectedFile = event.target.files[0];
 })
 
-let data = [{}]
+let data = [{}];
 
 document.getElementById('button').addEventListener("click", () => {
     XLSX.utils.json_to_sheet(data, 'out.xlsx');
@@ -26,6 +26,7 @@ document.getElementById('button').addEventListener("click", () => {
     }
 });
 
+let resulLoad = [{}]
 function Calc(data) {
     if (data[0].LCL !== undefined) {
         var typelcl = "NaN";
@@ -122,6 +123,7 @@ function Calc(data) {
         //document.getElementById("jsondata").innerHTML = JSON.stringify(LCLs, undefined, 4);
 
         loadData(LCLs);
+        resulLoad = LCLs;
     }
 }
 
@@ -174,4 +176,48 @@ function loadData(data) {
         document.querySelector("#loadFile").style.display = "none";
         document.querySelector("#selectLCL").style.display = "block";
     }
+}
+
+window.calcBeneficit = function () {
+    var LCList = document.querySelector("#addListCN").children;
+    console.log(LCList);
+
+    /*for (let i = 0; i < CnList.length; i++) {
+
+        var divObject = document.createElement('div');
+        divObject.classList.add("w3-containery");
+        divObject.classList.add("w3-light-grey");
+        divObject.classList.add("w3-card-4");
+        divObject.innerHTML = '<h2>' + CnList[i].id + '</h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th>LCL</th><th>CON</th><th>AVV</th><th>TOT</th><th>%</th><th>92%</th><th>96%</th></tr></thead><!-- Injection JavaScript --></table>';
+
+        var Cn = JSON.parse(localStorage.getItem("PerCent"));
+        Cn.sort(function (a, b) {
+            return a.LCL - b.LCL;
+        });
+        var count = Object.keys(Cn).length
+        for (let j = 0; j < count; j++) {
+            if (Cn[j].CN == CnList[i].id) {
+                var row = document.createElement("tr");
+                var perCent = ((Cn[j].CON * 100) / (Cn[j].TOT - Cn[j].AV)).toFixed(2);
+                var sti92 = (((92 * (Cn[j].TOT - Cn[j].AV) / 100) - Cn[j].CON) + 1).toFixed(0);
+                var sti96 = (((96 * (Cn[j].TOT - Cn[j].AV) / 100) - Cn[j].CON) + 1).toFixed(0);
+                if (sti92 <= 0) sti92 = "OK";
+                if (sti96 <= 0) sti96 = "OK";
+
+                const diffTime = Math.abs(new Date(Cn[j].Date) - new Date());
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+                var dataHtml = '<i class="w3-tiny noStamp"> (update ' + diffDays + ' day ago)</i>';
+                if (diffDays <= 0) {
+                    var time = new Date(Cn[j].Date).toLocaleTimeString();
+                    dataHtml = '<i class="w3-tiny noStamp"> (update ' + time + ')</i>';
+                }
+                row.innerHTML = "<td>" + Cn[j].LCL + dataHtml + "</td>" + "<td>" + Cn[j].CON + "</td>" + "<td>" + Cn[j].AV + "</td>" + "<td>" + Cn[j].TOT + "</td>" + "<td>" + perCent + "%</td>" + "<td>" + sti92 + "</td>" + "<td>" + sti96 + "</td>";
+                divObject.querySelector("#lclPerCent").appendChild(row);
+            }
+        }
+        document.querySelector("#listCnLCL").appendChild(divObject);
+    }*/
+
+    document.querySelector("#selectLCL").style.display = "none";
+    document.querySelector("#BeneficitTab").style.display = "block";
 }
