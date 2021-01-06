@@ -1,5 +1,48 @@
+let nevCalcTable = {
+    EUP: [
+        {
+            "label": "Parma",
+            "key": "8400149083",
+            "value": "4.5"
+        }, {
+            "label": "Ferrara",
+            "key": "8400150707",
+            "value": "4.5"
+        }, {
+            "label": "Firenze",
+            "key": "8400141787",
+            "value": "4.5"
+        }, {
+            "label": "Modena-Reggio 1",
+            "key": "8400124337",
+            "value": "4.5"
+        }, {
+            "label": "Rovigo 1",
+            "key": "8400118979",
+            "value": "4.5"
+        }, {
+            "label": "Vicenza",
+            "key": "8400141790",
+            "value": "4.5"
+        }, {
+            "label": "Mantova-Cremona",
+            "key": "8400149736",
+            "value": "4.5"
+        }, {
+            "label": "Padova-Rovigo 2",
+            "key": "8400149816",
+            "value": "4.5"
+        }, {
+            "label": "Reggio-Modena 2",
+            "key": "8400151041",
+            "value": "4.5"
+        }],
+    CEP: []
+}
+
+
 let selectedFile;
-console.log(window.XLSX);
+//console.log(window.XLSX);
 document.getElementById('input').addEventListener("change", (event) => {
     selectedFile = event.target.files[0];
 })
@@ -15,11 +58,8 @@ document.getElementById('button').addEventListener("click", () => {
         fileReader.onload = (event) => {
             let data = event.target.result;
             let workbook = XLSX.read(data, { type: "binary" });
-            //console.log(workbook);
             workbook.SheetNames.forEach(sheet => {
                 let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
-                //console.log(rowObject);
-                //document.getElementById("jsondata").innerHTML = JSON.stringify(rowObject, undefined, 4);
                 Calc(rowObject);
             });
         }
@@ -119,8 +159,7 @@ function Calc(data) {
                 }
             }
         }
-        console.log(LCLs);
-        //document.getElementById("jsondata").innerHTML = JSON.stringify(LCLs, undefined, 4);
+        //console.log(LCLs);
 
         loadData(LCLs);
         resulLoad = LCLs;
@@ -136,15 +175,15 @@ function loadData(data) {
             });
 
             var LCLexist = false;
-            for (let j = 0; j < document.querySelector("#addListCN").childElementCount; j++) {
-                if (document.querySelector("#addListCN").children[j].id == data[i].LCL) {
+            for (let j = 0; j < document.querySelector("#addListLCL").childElementCount; j++) {
+                if (document.querySelector("#addListLCL").children[j].id == data[i].LCL) {
                     LCLexist = true;
                 }
             }
 
             if (LCLexist == false) {
                 var element = document.createElement("li");
-                element.classList.add("w3-display-container"); //<i class="w3-tiny"> (update 3 day ago)</i>
+                element.classList.add("w3-display-container");
                 element.id = data[i].LCL;
 
                 var typeLCL = "NaN";
@@ -169,7 +208,7 @@ function loadData(data) {
                 }
 
                 element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + data[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
-                document.querySelector("#addListCN").appendChild(element);
+                document.querySelector("#addListLCL").appendChild(element);
             }
         }
 
@@ -179,45 +218,100 @@ function loadData(data) {
 }
 
 window.calcBeneficit = function () {
-    var LCList = document.querySelector("#addListCN").children;
-    console.log(LCList);
-
-    /*for (let i = 0; i < CnList.length; i++) {
-
-        var divObject = document.createElement('div');
-        divObject.classList.add("w3-containery");
-        divObject.classList.add("w3-light-grey");
-        divObject.classList.add("w3-card-4");
-        divObject.innerHTML = '<h2>' + CnList[i].id + '</h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th>LCL</th><th>CON</th><th>AVV</th><th>TOT</th><th>%</th><th>92%</th><th>96%</th></tr></thead><!-- Injection JavaScript --></table>';
-
-        var Cn = JSON.parse(localStorage.getItem("PerCent"));
-        Cn.sort(function (a, b) {
-            return a.LCL - b.LCL;
-        });
-        var count = Object.keys(Cn).length
-        for (let j = 0; j < count; j++) {
-            if (Cn[j].CN == CnList[i].id) {
-                var row = document.createElement("tr");
-                var perCent = ((Cn[j].CON * 100) / (Cn[j].TOT - Cn[j].AV)).toFixed(2);
-                var sti92 = (((92 * (Cn[j].TOT - Cn[j].AV) / 100) - Cn[j].CON) + 1).toFixed(0);
-                var sti96 = (((96 * (Cn[j].TOT - Cn[j].AV) / 100) - Cn[j].CON) + 1).toFixed(0);
-                if (sti92 <= 0) sti92 = "OK";
-                if (sti96 <= 0) sti96 = "OK";
-
-                const diffTime = Math.abs(new Date(Cn[j].Date) - new Date());
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
-                var dataHtml = '<i class="w3-tiny noStamp"> (update ' + diffDays + ' day ago)</i>';
-                if (diffDays <= 0) {
-                    var time = new Date(Cn[j].Date).toLocaleTimeString();
-                    dataHtml = '<i class="w3-tiny noStamp"> (update ' + time + ')</i>';
-                }
-                row.innerHTML = "<td>" + Cn[j].LCL + dataHtml + "</td>" + "<td>" + Cn[j].CON + "</td>" + "<td>" + Cn[j].AV + "</td>" + "<td>" + Cn[j].TOT + "</td>" + "<td>" + perCent + "%</td>" + "<td>" + sti92 + "</td>" + "<td>" + sti96 + "</td>";
-                divObject.querySelector("#lclPerCent").appendChild(row);
-            }
-        }
-        document.querySelector("#listCnLCL").appendChild(divObject);
-    }*/
+    var LCList = document.querySelector("#addListLCL").children;
+    //console.log(LCList);
 
     document.querySelector("#selectLCL").style.display = "none";
     document.querySelector("#BeneficitTab").style.display = "block";
+}
+
+window.Print = function () {
+    var resultList = document.querySelector("#BeneficitTab").innerHTML;
+
+    var a = window.open('', '', 'width=733,height=454');
+    a.document.open("text/html");
+    a.document.write('<html><head><title>');
+    a.document.write('Beneficit LCL');
+    a.document.write('</title>');
+    a.document.write('<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">');
+    a.document.write('<style>body{opacity: 0}@media print { body{opacity: 1}}</style>');
+    a.document.write('</head><body style="overflow: hidden;">');
+    a.document.write(resultList);
+    a.document.write("</body><!--FIX LIVE SERVER--></html>");
+
+    a.document.close(); // necessary for IE >= 10
+    a.focus(); // necessary for IE >= 10*/
+
+    setTimeout(function () { a.print(); a.close(); }, 600);
+}
+
+window.options = function () {
+    var jsonCalcTable;
+    if (localStorage.getItem("calcTable")) {
+        jsonCalcTable = JSON.parse(localStorage.getItem("calcTable"));
+    } else {
+        localStorage.setItem("calcTable", JSON.stringify(nevCalcTable));
+        jsonCalcTable = nevCalcTable;
+    }
+
+    jsonCalcTable.EUP.sort(function (a, b) {
+        return a.label - b.label;
+    });
+
+    var element = document.createElement("ul");
+    element.classList.add("w3-ul");
+    element.classList.add("w3-card-4");
+    element.classList.add("w3-margin-top");
+    element.classList.add("w3-margin-bottom");
+    element.innerHTML = '<!-- Injection JavaScript --><li><h2>€/Punto</h2></li>';
+
+    for (let i = 0; i < jsonCalcTable.EUP.length; i++) {
+        element.innerHTML += '<li class="w3-display-container" id="' + jsonCalcTable.EUP[i].key + '"><b>' + jsonCalcTable.EUP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.EUP[i].key + ')</i><span title="Edit" onclick="editData(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">' + jsonCalcTable.EUP[i].value + '€</span></li>';
+    }
+
+    document.querySelector("#optionsList").appendChild(element);
+
+    document.querySelector('#selectLCL').style.display = 'none';
+    document.querySelector('#optionsTab').style.display = 'block';
+}
+
+const elementID = document.querySelector('#ModalButtonSave');
+function editData(element) {
+    if (localStorage.getItem("calcTable")) {
+        loadCalcTable = JSON.parse(localStorage.getItem("calcTable"));
+
+        for (let i = 0; i < loadCalcTable.EUP.length; i++) {
+            if (loadCalcTable.EUP[i].key == element.id) {
+                document.querySelector('#labelCN').innerHTML = loadCalcTable.EUP[i].label + '<i class="w3-small">(' + loadCalcTable.EUP[i].key + ')</i>';
+                document.querySelector('#euroPunto').value = loadCalcTable.EUP[i].value;
+            }
+        }
+
+        document.getElementById('modalEditOp').style.display = "block";
+        
+        elementID.addEventListener('click', saveCalcTable, false);
+        elementID.myParam = element;
+    }
+}
+
+function saveCalcTable(evt) {
+    for (let i = 0; i < loadCalcTable.EUP.length; i++) {
+        if (loadCalcTable.EUP[i].key == evt.currentTarget.myParam.id) {
+
+            loadCalcTable.EUP[i].value = document.querySelector('#euroPunto').value;
+            localStorage.setItem("calcTable", JSON.stringify(loadCalcTable));
+
+            document.getElementById('modalEditOp').style.display = "none";
+
+            document.querySelector("#optionsList").innerHTML = "<!-- Injection JavaScript -->";
+            options();
+        }
+    }
+
+    elementID.removeEventListener('click', saveCalcTable);
+}
+
+function closeModal() {
+    document.getElementById('modalEditOp').style.display='none';
+    elementID.removeEventListener('click', saveCalcTable);
 }
