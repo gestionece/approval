@@ -39,33 +39,53 @@ let nevCalcTable = {
         }],
     CEP: [
         {
-            "label": "Eseguiti",
-            "filter": "MF-TF",
+            "label": "Eseguiti MF-TF",
+            "filter": "MF",
             "key": "CON",
             "value": 2.5
         }, {
-            "label": "Acesso a Vuoto",
-            "filter": "TF-15/30",
+            "label": "Acesso a Vuoto MF-TF",
+            "filter": "MF",
             "key": "AV",
             "value": 2.5
         }, {
-            "label": "Eseguiti",
-            "filter": "MF-TF",
+            "label": "Eseguiti TF15/30",
+            "filter": "TF",
             "key": "CON",
             "value": 2.5     
         }, {
-            "label": "Acesso a Vuoto",
-            "filter": "TF-15/30",
+            "label": "Acesso a Vuoto TF15/30",
+            "filter": "TF",
             "key": "AV",
             "value": 2.5
         }, {
-            "label": "Eseguiti",
+            "label": "Eseguiti M2",
             "filter": "M2",
             "key": "CON",
             "value": 2.5     
         }, {
-            "label": "Acesso a Vuoto",
+            "label": "Acesso a Vuoto M2",
             "filter": "M2",
+            "key": "AV",
+            "value": 2.5
+        }, {
+            "label": "Recuperi Eseguiti MF-TF",
+            "filter": "MF-R",
+            "key": "CON",
+            "value": 2.5
+        }, {
+            "label": "Recuperi Acesso a Vuoto MF-TF",
+            "filter": "MF-R",
+            "key": "AV",
+            "value": 2.5
+        }, {
+            "label": "Recuperi Eseguiti TF15/30",
+            "filter": "TF-R",
+            "key": "CON",
+            "value": 2.5
+        }, {
+            "label": "Recuperi Acesso a Vuoto TF15/30",
+            "filter": "TF-R",
             "key": "AV",
             "value": 2.5
         }
@@ -311,7 +331,7 @@ window.options = function () {
     element.innerHTML = '<!-- Injection JavaScript --><li><h2>Contatore/Punto</h2></li>';
 
     for (let i = 0; i < jsonCalcTable.CEP.length; i++) {
-        element.innerHTML += '<li class="w3-display-container"><b>' + jsonCalcTable.CEP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.CEP[i].filter + ')</i><span title="Edit" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + jsonCalcTable.CEP[i].value + '<i class="w3-tiny">p</i></span></li>';
+        element.innerHTML += '<li class="w3-display-container"><b>' + jsonCalcTable.CEP[i].label + '</b><span title="Edit" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + jsonCalcTable.CEP[i].value + '<i class="w3-tiny">p</i></span></li>';
     }
 
     document.querySelector("#optionsList").appendChild(element);
