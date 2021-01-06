@@ -47,14 +47,14 @@
         <h2>LCL</h2>
         <p><i>Elimina LCL, premendo su "x":</i></p>
         <div class="w3-col w3-margin-bottom">
-          <ul id="addListCN" class="w3-ul w3-card-4">
+          <ul id="addListLCL" class="w3-ul w3-card-4">
             <!-- Injection JavaScript -->
           </ul>
         </div>
         <p id="txtRemoveList" class="w3-margin-top" style="display: none;"><i>Agiungi il contratto, premendosu
             "+":</i></p>
         <div class="w3-col w3-margin-bottom">
-          <ul id="removeListCN" class="w3-ul w3-card-4">
+          <ul id="removeListLCL" class="w3-ul w3-card-4">
             <!-- Injection JavaScript -->
           </ul>
         </div>
@@ -68,15 +68,15 @@
     </div>
     <script>
       window.changeCN = function (element) {
-        if (element.parentElement.id == "addListCN" && document.querySelector('#addListCN').children.length > 1) {
+        if (element.parentElement.id == "addListLCL" && document.querySelector('#addListLCL').children.length > 1) {
           element.lastChild.innerHTML = "&plus;";
-          document.querySelector("#removeListCN").appendChild(element);
-        } else if (element.parentElement.id == "removeListCN") {
+          document.querySelector("#removeListLCL").appendChild(element);
+        } else if (element.parentElement.id == "removeListLCL") {
           element.lastChild.innerHTML = "&times;";
-          document.querySelector("#addListCN").appendChild(element);
+          document.querySelector("#addListLCL").appendChild(element);
         }
 
-        if (document.querySelector('#removeListCN').children.length > 0) {
+        if (document.querySelector('#removeListLCL').children.length > 0) {
           document.querySelector("#txtRemoveList").style.display = "block";
         } else {
           document.querySelector("#txtRemoveList").style.display = "none";
@@ -84,8 +84,8 @@
       }
 
       window.backLCList = function () {
-        document.querySelector("#addListCN").innerHTML = "<!-- Injection JavaScript -->";
-        document.querySelector("#removeListCN").innerHTML = "<!-- Injection JavaScript -->";
+        document.querySelector("#addListLCL").innerHTML = "<!-- Injection JavaScript -->";
+        document.querySelector("#removeListLCL").innerHTML = "<!-- Injection JavaScript -->";
 
         document.querySelector('#selectLCL').style.display = 'none';
         document.querySelector('#loadFile').style.display = 'block';
@@ -101,85 +101,11 @@
       <div class="w3-col m6">
         <div id="optionsList" class="w3-col w3-margin-bottom">
           <!-- Injection JavaScript -->
-          <ul class="w3-ul w3-card-4 w3-margin-top w3-margin-bottom">
-            <!-- Injection JavaScript -->
-            <li>
-              <h2>Euro/Punto</h2>
-            </li>
-            <li class="w3-display-container"><b>8400149083:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
-            <li class="w3-display-container"><b>8400149083:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
-            <li class="w3-display-container"><b>8400149083:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
-            <li class="w3-display-container"><b>8400149083:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
-            <li class="w3-display-container"><b>8400149083:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
-            <li class="w3-display-container"><b>8400149083:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
-            <li class="w3-display-container"><b>8400149083:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
-            <li class="w3-display-container"><b>8400149083:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
-            <li class="w3-display-container"><b>8400149083:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
-          </ul>
-          <ul class="w3-ul w3-card-4 w3-margin-top w3-margin-bottom">
-            <!-- Injection JavaScript -->
-            <li>
-              <h2>CE/Punto</h2>
-            </li>
-            <li class="w3-display-container"><b>sostituzione normale:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5</span></li>
-            <li class="w3-display-container"><b>accesso a vuoto:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0</span></li>
-            <li class="w3-display-container"><b>sostituzione trifase:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5</span></li>
-            <li class="w3-display-container"><b>sostituzione M2:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5</span></li>
-            <li class="w3-display-container"><b>sostituzione interni:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0</span></li>
-            <li class="w3-display-container"><b>sostituzione normale con ripasso mese 1:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5</span></li>
-            <li class="w3-display-container"><b>sostituzione normale con ripasso mese 2:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5</span></li>
-            <li class="w3-display-container"><b>sostituzione normale con ripasso mese 3:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0</span></li>
-            <li class="w3-display-container"><b>sostituzione trifase:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5</span></li>
-            <li class="w3-display-container"><b>sostituzione normale:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5</span></li>
-            <li class="w3-display-container"><b>accesso a vuoto:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0</span></li>
-            <li class="w3-display-container"><b>sostituzione trifase:</b><span
-                onclick="document.getElementById('modalEditOp').style.display='block'"
-                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5</span></li>
-          </ul>
         </div>
-        <div class="w3-bar noStamp"><button class="w3-button w3-left w3-dark-grey" onclick="backOp();">&laquo;
-            Back</button><button class="w3-button w3-left w3-light-grey" disabled onclick="options();">Save Options</button><button class="w3-button w3-right w3-green"
-            onclick="document.getElementById('modalNewCN').style.display='block'">Add Contratto &plus;</button></div>
+        <div class="w3-bar noStamp">
+          <button class="w3-button w3-left w3-dark-grey" onclick="backOp();">&laquo; Back</button>
+          <button class="w3-button w3-left w3-light-grey" disabled onclick="options();">Save Options</button>
+        </div>
         <div class="w3-col m3">
           <p></p>
         </div>
@@ -190,62 +116,22 @@
       <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
 
         <div class="w3-center"><br>
-          <span onclick="document.getElementById('modalEditOp').style.display='none'"
+          <span onclick="closeModal();"
             class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
         </div>
 
         <div class="w3-container">
+            <h2 id="labelCN"><!-- Injection JavaScript --></h2>
           <div class="w3-section">
             <label><b>Euro/Punto</b></label>
-            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Euro" name="usrname" required>
+            <input id="euroPunto" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Euro" name="usrname" required>
           </div>
         </div>
 
         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
           <div class="w3-bar noStamp"><button class="w3-button w3-left w3-red"
-              onclick="document.getElementById('modalEditOp').style.display='none'">Cancel</button><button
-              class="w3-button w3-right w3-green" onclick="">Save</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div id="modalNewCN" class="w3-modal">
-      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-
-        <div class="w3-center"><br>
-          <span onclick="document.getElementById('modalNewCN').style.display='none'"
-            class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
-        </div>
-
-        <div class="w3-container">
-          <div class="w3-section">
-            <label><b>Euro/Punto</b></label>
-            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Euro" name="usrname"
-              required>
-          </div>
-          <div class="w3-section">
-            <label><b>Euro/Punto</b></label>
-            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Euro" name="usrname"
-              required>
-          </div>
-          <div class="w3-section">
-            <label><b>Euro/Punto</b></label>
-            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Euro" name="usrname"
-              required>
-          </div>
-          <div class="w3-section">
-            <label><b>Euro/Punto</b></label>
-            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Euro" name="usrname"
-              required>
-          </div>
-        </div>
-
-        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-          <div class="w3-bar noStamp"><button class="w3-button w3-left w3-red"
-              onclick="document.getElementById('modalNewCN').style.display='none'">Cancel</button><button
-              class="w3-button w3-right w3-green" onclick="">Save</button>
+              onclick="closeModal();">Cancel</button><button
+              class="w3-button w3-right w3-green" id="ModalButtonSave" onclick="">Save</button>
           </div>
         </div>
 
@@ -253,12 +139,9 @@
     </div>
 
     <script>
-      window.options = function () {
-        document.querySelector('#selectLCL').style.display = 'none';
-        document.querySelector('#optionsTab').style.display = 'block';
-      }
-
       window.backOp = function () {
+        document.querySelector("#optionsList").innerHTML = "<!-- Injection JavaScript -->";
+
         document.querySelector('#optionsTab').style.display = 'none';
         document.querySelector('#selectLCL').style.display = 'block';
       }
@@ -277,7 +160,7 @@
             <table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom">
               <thead>
                 <tr class="w3-green">
-                  <th>Causuale</th>
+                  <th>Causale</th>
                   <th>Contatori</th>
                   <th>Punti</th>
                   <th>€/Punto</th>
@@ -335,3 +218,79 @@
 <script src="excel.js"></script>
 
 </html>
+
+<!--
+  <ul class="w3-ul w3-card-4 w3-margin-top w3-margin-bottom">
+            <li>
+              <h2>Euro/Punto</h2>
+            </li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0€</span></li>
+            <li class="w3-display-container"><b>8400149083:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5€</span></li>
+          </ul>
+          <ul class="w3-ul w3-card-4 w3-margin-top w3-margin-bottom">
+            <li>
+              <h2>CE/Punto</h2>
+            </li>
+            <li class="w3-display-container"><b>sostituzione normale:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5</span></li>
+            <li class="w3-display-container"><b>accesso a vuoto:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0</span></li>
+            <li class="w3-display-container"><b>sostituzione trifase:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5</span></li>
+            <li class="w3-display-container"><b>sostituzione M2:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5</span></li>
+            <li class="w3-display-container"><b>sostituzione interni:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0</span></li>
+            <li class="w3-display-container"><b>sostituzione normale con ripasso mese 1:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5</span></li>
+            <li class="w3-display-container"><b>sostituzione normale con ripasso mese 2:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5</span></li>
+            <li class="w3-display-container"><b>sostituzione normale con ripasso mese 3:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0</span></li>
+            <li class="w3-display-container"><b>sostituzione trifase:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5</span></li>
+            <li class="w3-display-container"><b>sostituzione normale:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">4.5</span></li>
+            <li class="w3-display-container"><b>accesso a vuoto:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">5.0</span></li>
+            <li class="w3-display-container"><b>sostituzione trifase:</b><span
+                onclick="document.getElementById('modalEditOp').style.display='block'"
+                class="w3-button w3-transparent w3-display-right w3-hover-dark-grey">3.5</span></li>
+          </ul>
+-->
