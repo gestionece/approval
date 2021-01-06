@@ -298,7 +298,7 @@ window.options = function () {
     element.innerHTML = '<!-- Injection JavaScript --><li><h2>€/Punto</h2></li>';
 
     for (let i = 0; i < jsonCalcTable.EUP.length; i++) {
-        element.innerHTML += '<li class="w3-display-container" id="' + jsonCalcTable.EUP[i].key + '"><b>' + jsonCalcTable.EUP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.EUP[i].key + ')</i><span title="Edit" onclick="editData(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + jsonCalcTable.EUP[i].value + '<i class="w3-tiny">€</i></span></li>';
+        element.innerHTML += '<li class="w3-display-container" id="' + jsonCalcTable.EUP[i].key + '"><b>' + jsonCalcTable.EUP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.EUP[i].key + ')</i><span title="Edit" onclick="ediTable(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + jsonCalcTable.EUP[i].value + '<i class="w3-tiny">€</i></span></li>';
     }
 
     document.querySelector("#optionsList").appendChild(element);
