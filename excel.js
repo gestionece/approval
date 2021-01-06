@@ -14,7 +14,6 @@ document.getElementById('button').addEventListener("click", () => {
 
         fileReader.onload = (event) => {
             let data = event.target.result;
-
             let workbook = XLSX.read(data, { type: "binary" });
             //console.log(workbook);
             workbook.SheetNames.forEach(sheet => {
@@ -29,7 +28,6 @@ document.getElementById('button').addEventListener("click", () => {
 
 function Calc(data) {
     if (data[0].LCL !== undefined) {
-
         var typelcl = "NaN";
         if (data[1]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[1]["CIT"].localeCompare("525") == 0) {
             typelcl = "M2";
