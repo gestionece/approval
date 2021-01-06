@@ -166,7 +166,7 @@ function loadData(data) {
                         break;
                 }
 
-                element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (Contratto:' + data[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+                element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + data[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
                 document.querySelector("#addListCN").appendChild(element);
             }
         }
