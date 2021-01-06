@@ -311,7 +311,7 @@ window.options = function () {
     element.innerHTML = '<!-- Injection JavaScript --><li><h2>Contatore/Punto</h2></li>';
 
     for (let i = 0; i < jsonCalcTable.CEP.length; i++) {
-        element.innerHTML += '<li class="w3-display-container"><b>' + jsonCalcTable.CEP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.CEP[i].filter + ')</i><span title="Edit" onclick="editData(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + jsonCalcTable.CEP[i].value + '<i class="w3-tiny">p</i></span></li>';
+        element.innerHTML += '<li class="w3-display-container"><b>' + jsonCalcTable.CEP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.CEP[i].filter + ')</i><span title="Edit" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + jsonCalcTable.CEP[i].value + '<i class="w3-tiny">p</i></span></li>';
     }
 
     document.querySelector("#optionsList").appendChild(element);
@@ -321,7 +321,7 @@ window.options = function () {
 }
 
 const elementID = document.querySelector('#ModalButtonSave');
-function editData(element) {
+function ediTable(element) {
     if (localStorage.getItem("calcTable")) {
         loadCalcTable = JSON.parse(localStorage.getItem("calcTable"));
 
@@ -343,7 +343,7 @@ function saveCalcTable(evt) {
     for (let i = 0; i < loadCalcTable.EUP.length; i++) {
         if (loadCalcTable.EUP[i].key == evt.currentTarget.myParam.id) {
 
-            loadCalcTable.EUP[i].value = document.querySelector('#euroPunto').value;
+            loadCalcTable.EUP[i].value = parseFloat(document.querySelector('#euroPunto').value);
             localStorage.setItem("calcTable", JSON.stringify(loadCalcTable));
 
             document.getElementById('modalEditOp').style.display = "none";
@@ -357,6 +357,8 @@ function saveCalcTable(evt) {
 }
 
 function closeModal() {
+    document.querySelector('#labelCN').innerHTML = "<!-- Injection JavaScript -->";
+    document.querySelector('#euroPunto').value = "";
     document.getElementById('modalEditOp').style.display='none';
     elementID.removeEventListener('click', saveCalcTable);
 }
