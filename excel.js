@@ -3,15 +3,15 @@ let nevCalcTable = {
         {
             "label": "Parma",
             "key": "8400149083",
-            "value": "4.5"
+            "value": 4.5
         }, {
             "label": "Ferrara",
             "key": "8400150707",
-            "value": "4.5"
+            "value": 4.5
         }, {
             "label": "Firenze",
             "key": "8400141787",
-            "value": "4.5"
+            "value": 4.5
         }, {
             "label": "Modena-Reggio 1",
             "key": "8400124337",
@@ -19,25 +19,57 @@ let nevCalcTable = {
         }, {
             "label": "Rovigo 1",
             "key": "8400118979",
-            "value": "4.5"
+            "value": 4.5
         }, {
             "label": "Vicenza",
             "key": "8400141790",
-            "value": "4.5"
+            "value": 4.5
         }, {
             "label": "Mantova-Cremona",
             "key": "8400149736",
-            "value": "4.5"
+            "value": 4.5
         }, {
             "label": "Padova-Rovigo 2",
             "key": "8400149816",
-            "value": "4.5"
+            "value": 4.5
         }, {
             "label": "Reggio-Modena 2",
             "key": "8400151041",
-            "value": "4.5"
+            "value": 4.5
         }],
-    CEP: []
+    CEP: [
+        {
+            "label": "Eseguiti",
+            "filter": "MF-TF",
+            "key": "CON",
+            "value": 2.5
+        }, {
+            "label": "Acesso a Vuoto",
+            "filter": "TF-15/30",
+            "key": "AV",
+            "value": 2.5
+        }, {
+            "label": "Eseguiti",
+            "filter": "MF-TF",
+            "key": "CON",
+            "value": 2.5     
+        }, {
+            "label": "Acesso a Vuoto",
+            "filter": "TF-15/30",
+            "key": "AV",
+            "value": 2.5
+        }, {
+            "label": "Eseguiti",
+            "filter": "M2",
+            "key": "CON",
+            "value": 2.5     
+        }, {
+            "label": "Acesso a Vuoto",
+            "filter": "M2",
+            "key": "AV",
+            "value": 2.5
+        }
+    ]
 }
 
 
@@ -266,7 +298,20 @@ window.options = function () {
     element.innerHTML = '<!-- Injection JavaScript --><li><h2>€/Punto</h2></li>';
 
     for (let i = 0; i < jsonCalcTable.EUP.length; i++) {
-        element.innerHTML += '<li class="w3-display-container" id="' + jsonCalcTable.EUP[i].key + '"><b>' + jsonCalcTable.EUP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.EUP[i].key + ')</i><span title="Edit" onclick="editData(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + jsonCalcTable.EUP[i].value + '€</span></li>';
+        element.innerHTML += '<li class="w3-display-container" id="' + jsonCalcTable.EUP[i].key + '"><b>' + jsonCalcTable.EUP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.EUP[i].key + ')</i><span title="Edit" onclick="editData(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + jsonCalcTable.EUP[i].value + '<i class="w3-tiny">€</i></span></li>';
+    }
+
+    document.querySelector("#optionsList").appendChild(element);
+
+    element = document.createElement("ul");
+    element.classList.add("w3-ul");
+    element.classList.add("w3-card-4");
+    element.classList.add("w3-margin-top");
+    element.classList.add("w3-margin-bottom");
+    element.innerHTML = '<!-- Injection JavaScript --><li><h2>Contatore/Punto</h2></li>';
+
+    for (let i = 0; i < jsonCalcTable.CEP.length; i++) {
+        element.innerHTML += '<li class="w3-display-container"><b>' + jsonCalcTable.CEP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.CEP[i].filter + ')</i><span title="Edit" onclick="editData(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + jsonCalcTable.CEP[i].value + '<i class="w3-tiny">p</i></span></li>';
     }
 
     document.querySelector("#optionsList").appendChild(element);
