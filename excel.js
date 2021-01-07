@@ -99,9 +99,9 @@ document.getElementById('input').addEventListener("change", (event) => {
     selectedFile = event.target.files[0];
 })
 
-let data = [{}];
-
+let saveLoadFile;
 document.getElementById('button').addEventListener("click", () => {
+    let data = [{}];
     XLSX.utils.json_to_sheet(data, 'out.xlsx');
     if (selectedFile) {
         let fileReader = new FileReader();
@@ -112,17 +112,97 @@ document.getElementById('button').addEventListener("click", () => {
             let workbook = XLSX.read(data, { type: "binary" });
             workbook.SheetNames.forEach(sheet => {
                 let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
-                Calc(rowObject);
+                saveLoadFile = rowObject;
+                getLCL(rowObject);
             });
         }
     }
 });
 
-let resulLoad = [{}]
+function convertDate(stringDate) {
+    const regex = /\d{2}\/\d{2}\/\d{4}/gm;
+    var dateParts = stringDate.match(regex)[0].split("/");
+    // month is 0-based, that's why we need dataParts[1] - 1
+    return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+}
+
+function getLCL(data) {
+    if (data[0].LCL !== undefined) {
+        var typelcl = "NaN";
+        if ( data[1]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[1]["CIT"].localeCompare("525") == 0) {
+            typelcl = "M2";
+        } else if (data[1]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[1]["CIT"].localeCompare("521") == 0) {
+            typelcl = "MF-R";
+        }
+        else if (data[1]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[1]["CIT"].localeCompare("523") == 0) {
+            typelcl = "TF-R";
+        }
+        else if (data[1]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[1]["CIT"].localeCompare("520") == 0) {
+            typelcl = "MF";
+        }
+        else if (data[1]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[1]["CIT"].localeCompare("523") == 0) {
+            typelcl = "TF";
+        }
+
+        let LCLs = [{
+            "CN": data[1]["Codice contratto"],
+            "LCL": data[1].LCL,
+            "TYPE": typelcl,
+        }];
+
+        var count = Object.keys(data).length;
+        for (let i = 0; i < count; i++) {
+            var LCLexist = false;
+            var lastEneltel;
+            if (lastEneltel !== data[i]["Eneltel"]) {
+                lastEneltel = data[i]["Eneltel"];
+
+                for (let j = 0; j < LCLs.length; j++) {
+                    if (LCLs[j].LCL != undefined && data[i].LCL == LCLs[j].LCL) {
+                        LCLexist = true;
+                    }
+
+                }
+                if (LCLexist == false) {
+                    LCLexist = false;
+
+                    var typelcl = "NaN";
+                    if (data[i]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[i]["CIT"].localeCompare("525") == 0) {
+                        typelcl = "M2";
+                    } else if (data[i]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[i]["CIT"].localeCompare("521") == 0) {
+                        typelcl = "MF-R";
+                    }
+                    else if (data[i]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[i]["CIT"].localeCompare("523") == 0) {
+                        typelcl = "TF-R";
+                    }
+                    else if (data[i]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[i]["CIT"].localeCompare("520") == 0) {
+                        typelcl = "MF";
+                    }
+                    else if (data[i]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[i]["CIT"].localeCompare("523") == 0) {
+                        typelcl = "TF";
+                    }
+
+                    let LCL = {
+                        "CN": data[i]["Codice contratto"],
+                        "LCL": data[i].LCL,
+                        "TYPE": typelcl,
+                    };
+
+                    LCLs.push(LCL);
+
+                }
+            }
+        }
+        console.log(LCLs);
+
+        loadData(LCLs);
+    }
+}
+
 function Calc(data) {
     if (data[0].LCL !== undefined) {
         var typelcl = "NaN";
-        if (data[1]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[1]["CIT"].localeCompare("525") == 0) {
+        if ( data[1]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[1]["CIT"].localeCompare("525") == 0) {
             typelcl = "M2";
         } else if (data[1]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[1]["CIT"].localeCompare("521") == 0) {
             typelcl = "MF-R";
@@ -144,7 +224,11 @@ function Calc(data) {
             "TOT": 0,
             "CON": 0,
             "ANN": 0,
-            "AV": 0
+            "AV": 0,
+            "CDATA": convertDate(data[1]["Data creazione"]),
+            "GG1": 0,
+            "GG2": 0,
+            "GG3": 0
         }];
 
         var count = Object.keys(data).length;
@@ -162,6 +246,17 @@ function Calc(data) {
                             LCLs[j].ANN += 1;
                         } else if (data[i]["Stato OdL"].localeCompare("Chiuso") == 0 && (data[i]["Causale Esito"].localeCompare("OK FINALE") == 0 || data[i]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
                             LCLs[j].CON += 1;
+
+                            const diffTime = Math.abs(new Date(LCLs[j].CDATA) - convertDate(data[i]["Data e ora fine esecuzione"]));
+                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+                            if (diffDays <= 30) {
+                                LCLs[j].GG1 += 1;
+                            } else if (diffDays > 30 && diffDays <= 90) {
+                                LCLs[j].GG2 += 1;
+                            } else {
+                                LCLs[j].GG3 += 1;
+                            }
+
                         } else if (data[i]["Stato OdL"].localeCompare("Chiuso") == 0 && data[i]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
                             LCLs[j].AV += 1;
                         }
@@ -194,7 +289,11 @@ function Calc(data) {
                         "TOT": 0,
                         "CON": 0,
                         "ANN": 0,
-                        "AV": 0
+                        "AV": 0,
+                        "CDATA": convertDate(data[i]["Data creazione"]),
+                        "GG1": 0,
+                        "GG2": 0,
+                        "GG3": 0
                     };
 
                     LCL.TOT += 1;
@@ -202,6 +301,17 @@ function Calc(data) {
                         LCL.ANN += 1;
                     } else if (data[i]["Stato OdL"].localeCompare("Chiuso") == 0 && (data[i]["Causale Esito"].localeCompare("OK FINALE") == 0 || data[i]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
                         LCL.CON += 1;
+
+                        const diffTime = Math.abs(new Date(LCL.CDATA) - convertDate(data[i]["Data e ora fine esecuzione"]));
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+                        if (diffDays <= 30) {
+                            LCL.GG1 += 1;
+                        } else if (diffDays > 30 && diffDays <= 90) {
+                            LCL.GG2 += 1;
+                        } else {
+                            LCL.GG3 += 1;
+                        }
+
                     } else if (data[i]["Stato OdL"].localeCompare("Chiuso") == 0 && data[i]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
                         LCL.AV += 1;
                     }
@@ -211,10 +321,8 @@ function Calc(data) {
                 }
             }
         }
-        //console.log(LCLs);
-
-        loadData(LCLs);
-        resulLoad = LCLs;
+        console.log(LCLs);
+        return LCLs;
     }
 }
 
