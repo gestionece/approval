@@ -260,26 +260,7 @@ function loadData(data) {
                 element.setAttribute("onclick", 'if(event.target === this) { modalEditLCL(this); }');
                 element.id = data[i].LCL;
 
-                var typeLCL = "NaN";
-                switch (data[i].TYPE) { //typeLCL
-                    case "M2":
-                        typeLCL = "M2";
-                        break;
-                    case "MF-R":
-                        typeLCL = "MF-TF Recuperi";
-                        break;
-                    case "TF-R":
-                        typeLCL = "TF-15/30 Recuperi";
-                        break;
-                    case "MF":
-                        typeLCL = "MF-TF";
-                        break;
-                    case "TF":
-                        typeLCL = "TF-15/30";
-                        break;
-                    default:
-                        break;
-                }
+                var typeLCL = convertTYPE(data[i].TYPE);
 
                 var jsonCalcTable = loadOptions();
                 for (let cnI = 0; cnI < jsonCalcTable.EUP.length; cnI++) {
@@ -442,27 +423,7 @@ function saveCalcTableLCL(evt) {
             document.querySelector('#labelLCL').innerHTML = "<!-- Injection JavaScript -->";
             document.getElementById('modalEditLCL').style.display = 'none';
 
-            var typeLCL = "NaN";
-            switch (saveListLCL[i].TYPE) {
-                case "M2":
-                    typeLCL = "M2";
-                    break;
-                case "MF-R":
-                    typeLCL = "MF-TF Recuperi";
-                    break;
-                case "TF-R":
-                    typeLCL = "TF-15/30 Recuperi";
-                    break;
-                case "MF":
-                    typeLCL = "MF-TF";
-                    break;
-                case "TF":
-                    typeLCL = "TF-15/30";
-                    break;
-                default:
-                    break;
-            }
-
+            var typeLCL = convertTYPE(saveListLCL[i].TYPE);
             evt.currentTarget.myParam.innerHTML = '<b>' + saveListLCL[i].LCL + '</b><i class="w3-tiny"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
         }
     }
@@ -476,6 +437,7 @@ function closeModaLCL() {
     elementID.removeEventListener('click', saveCalcTableLCL);
 }
 
+let saveResultBeneficit;
 function calcBeneficit() {
     let LCLs = [];
     for (let i = 0; i < saveListLCL.length; i++) {
@@ -492,7 +454,7 @@ function calcBeneficit() {
                 "AV": 0,
                 "GG1": 0,
                 "GG2": 0,
-                "GG3": 0
+                "GG3": 0,
             };
 
             for (let ii = 0; ii < saveLoadFile.length; ii++) {
@@ -528,26 +490,7 @@ function calcBeneficit() {
             divObject.classList.add("w3-light-grey");
             divObject.classList.add("w3-card-4");
 
-            var typeLCL = "NaN";
-            switch (saveListLCL[i].TYPE) {
-                case "M2":
-                    typeLCL = "M2";
-                    break;
-                case "MF-R":
-                    typeLCL = "MF-TF Recuperi";
-                    break;
-                case "TF-R":
-                    typeLCL = "TF-15/30 Recuperi";
-                    break;
-                case "MF":
-                    typeLCL = "MF-TF";
-                    break;
-                case "TF":
-                    typeLCL = "TF-15/30";
-                    break;
-                default:
-                    break;
-            }
+            var typeLCL = convertTYPE(saveListLCL[i].TYPE);
 
             var jsonCalcTable = loadOptions();
             for (let cnI = 0; cnI < jsonCalcTable.EUP.length; cnI++) {
@@ -584,7 +527,7 @@ function calcBeneficit() {
                                 break;
                         }
                         var tot = numVar * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
-                        subTot += tot;     
+                        subTot += tot;
                         row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td class='w3-center'>" + numVar + "</td><td class='w3-center'>" + jsonCalcTable.CEP[j].value + "</td><td class='w3-center'>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td class='w3-center'>" + formatter.format(tot) + "</td>";
                         divObject.querySelector("#lclPerCent").appendChild(row);
                     }
@@ -599,6 +542,96 @@ function calcBeneficit() {
         }
     }
 
+    saveResultBeneficit = LCLs;
+
     document.querySelector("#selectLCL").style.display = "none";
     document.querySelector("#BeneficitTab").style.display = "block";
+}
+
+function convertTYPE(type) {
+    var typeLCL = "NaN";
+    switch (type) {
+        case "M2":
+            typeLCL = "M2";
+            break;
+        case "MF-R":
+            typeLCL = "MF-TF Recuperi";
+            break;
+        case "TF-R":
+            typeLCL = "TF-15/30 Recuperi";
+            break;
+        case "MF":
+            typeLCL = "MF-TF";
+            break;
+        case "TF":
+            typeLCL = "TF-15/30";
+            break;
+        default:
+            break;
+    }
+    return typeLCL;
+}
+
+function download_csv(filename = "beneficit") {
+
+    var csv = 'CalcBeneficit,,,,\n';
+    for (let i = 0; i < saveResultBeneficit.length; i++) {
+        //Start Header CSV
+        var row = saveResultBeneficit[i].LCL + ',';
+        var jsonCalcTable = loadOptions();
+        for (let cnI = 0; cnI < jsonCalcTable.EUP.length; cnI++) {
+            if (saveResultBeneficit[i].CN == jsonCalcTable.EUP[cnI].key) {
+                row += jsonCalcTable.EUP[cnI].label + ',';
+            }
+        }
+        var typeLCL = convertTYPE(saveListLCL[i].TYPE);
+        row += typeLCL + ',,\n';
+        row += typeLCL + 'Causale,Contatori,Punti,Euro/Punto,Euro\n';
+        //Start Table CSV
+        var subTot = 0;
+        for (let j = 0; j < jsonCalcTable.CEP.length; j++) {
+            for (let jj = 0; jj < jsonCalcTable.EUP.length; jj++) {
+                if (saveListLCL[i].TYPE == jsonCalcTable.CEP[j].filter && saveListLCL[i].CN == jsonCalcTable.EUP[jj].key) {
+
+                    var numVar = 0;
+                    switch (jsonCalcTable.CEP[j].key) {
+                        case "CON":
+                            numVar = saveResultBeneficit[i].CON;
+                            break;
+                        case "AV":
+                            numVar = saveResultBeneficit[i].AV;
+                            break;
+                        case "GG1":
+                            numVar = saveResultBeneficit[i].GG1;
+                            break;
+                        case "GG2":
+                            numVar = saveResultBeneficit[i].GG2;
+                            break;
+                        case "GG3":
+                            numVar = saveResultBeneficit[i].GG3;
+                            break;
+                        default:
+                            break;
+                    }
+                    var tot = numVar * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
+                    subTot += tot;
+                    row += jsonCalcTable.CEP[j].label + ',' + numVar + ',' + jsonCalcTable.CEP[j].value + ',' + jsonCalcTable.EUP[jj].value + ',' + tot + '\n';
+                }
+            }
+        }
+        row += 'Totale:,,,,' + subTot + '\n';
+        csv += row;
+        csv += '\n\n';
+    }
+    
+    var a = document.createElement("a");
+    var url = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    a.href = url;
+    a.download = filename + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }, 0);
 }
