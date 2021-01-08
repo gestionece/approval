@@ -88,6 +88,36 @@ let nevCalcTable = {
             "filter": "TF-R",
             "key": "AV",
             "value": 4.5
+        }, { //GG MF-R
+            "label": "Eseguiti <30 Giorni MF-TF",
+            "filter": "MF-R",
+            "key": "GG1",
+            "value": 1
+        }, {
+            "label": "Eseguiti 30<>90 Giorni MF-TF",
+            "filter": "MF-R",
+            "key": "GG2",
+            "value": 0.5
+        }, {
+            "label": "Eseguiti >90 Giorni MF-TF",
+            "filter": "MF-R",
+            "key": "GG3",
+            "value": 0
+        }, {
+            "label": "Eseguiti <30 Giorni  TF15/30",
+            "filter": "TF-R",
+            "key": "GG1",
+            "value": 1.5
+        }, {
+            "label": "Eseguiti 30<>90 Giorni TF15/30",
+            "filter": "TF-R",
+            "key": "GG2",
+            "value": 1
+        }, {
+            "label": "Eseguiti >90 Giorni TF15/30",
+            "filter": "TF-R",
+            "key": "GG3",
+            "value": 0.5
         }
     ]
 }
@@ -201,7 +231,7 @@ function getLCL(data) {
                 }
             }
         }
-        console.log(LCLs);
+        //console.log(LCLs);
         saveListLCL = LCLs;
         loadData(LCLs);
     } else {
@@ -292,6 +322,9 @@ window.options = function () {
 
     jsonCalcTable.EUP.sort(function (a, b) {
         return a.label - b.label;
+    });
+    jsonCalcTable.CEP.sort(function (a, b) {
+        return b.value - a.value;
     });
 
     var element = document.createElement("ul");
@@ -522,17 +555,30 @@ function calcBeneficit() {
                     if (saveListLCL[i].TYPE == jsonCalcTable.CEP[j].filter && saveListLCL[i].CN == jsonCalcTable.EUP[jj].key) {
 
                         var row = document.createElement("tr");
-                        if (jsonCalcTable.CEP[j].key == "CON") {
-                            var tot = LCL.CON * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
-                            subTot += tot;
-                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td class='w3-center'>" + LCL.CON + "</td><td class='w3-center'>" + jsonCalcTable.CEP[j].value + "</td><td class='w3-center'>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td class='w3-center'>" + formatter.format(tot) + "</td>";
-                        } else if (jsonCalcTable.CEP[j].key == "AV") {
-                            var tot = LCL.AV * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
-                            subTot += tot;
-                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td class='w3-center'>" + LCL.AV + "</td><td class='w3-center'>" + jsonCalcTable.CEP[j].value + "</td><td class='w3-center'>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td class='w3-center'>" + formatter.format(tot) + "</td>";
+                        var numVar = 0;
+                        switch (jsonCalcTable.CEP[j].key) {
+                            case "CON":
+                                numVar = LCL.CON;
+                                break;
+                            case "AV":
+                                numVar = LCL.AV;
+                                break;
+                            case "GG1":
+                                numVar = LCL.GG1;
+                                break;
+                            case "GG2":
+                                numVar = LCL.GG2;
+                                break;
+                            case "GG3":
+                                numVar = LCL.GG3;
+                                break;
+                            default:
+                                break;
                         }
+                        var tot = numVar * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
+                        subTot += tot;     
+                        row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td class='w3-center'>" + numVar + "</td><td class='w3-center'>" + jsonCalcTable.CEP[j].value + "</td><td class='w3-center'>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td class='w3-center'>" + formatter.format(tot) + "</td>";
                         divObject.querySelector("#lclPerCent").appendChild(row);
-
                     }
                 }
             }
