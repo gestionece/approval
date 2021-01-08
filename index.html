@@ -215,41 +215,6 @@
       <div class="w3-col m6">
         <div id="listCnLCL" class="w3-center">
           <!-- Injection JavaScript -->
-          <div class="w3-containery w3-light-grey w3-card-4">
-            <h2>6600059715<i class="w3-small"> (8400149083, MF-TF)</i></h2>
-            <table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom">
-              <thead>
-                <tr class="w3-green">
-                  <th>Causale</th>
-                  <th>Contatori</th>
-                  <th>Punti</th>
-                  <th>€/Punto</th>
-                  <th>€</th>
-                </tr>
-              </thead>
-              <tr class="w3-center">
-                <td>Accesso a Vuoto:</td>
-                <td>84</td>
-                <td>2.5</td>
-                <td>4.5€</td>
-                <td>945€</td>
-              </tr>
-              <tr>
-                <td>Eseguiti:</td>
-                <td>3798</td>
-                <td>4</td>
-                <td>4.5€</td>
-                <td>68364€</td>
-              </tr>
-              <tr>
-                <td>Totale</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>69309€</td>
-              </tr>
-            </table>
-          </div>
         </div>
         <style>
           @media print {
@@ -268,6 +233,7 @@
     </div>
     <script>
       window.backBeneficit = function () {
+        document.querySelector("#listCnLCL").innerHTML = "<!-- Injection JavaScript -->";
         document.querySelector('#BeneficitTab').style.display = 'none';
         document.querySelector('#selectLCL').style.display = 'block';
       }
