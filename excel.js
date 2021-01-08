@@ -504,7 +504,7 @@ function calcBeneficit() {
                 default:
                     break;
             }
-            divObject.innerHTML = '<h2>' + saveListLCL[i].LCL + '<i class="w3-small"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i></h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th style="width: 40%;">Causale</th><th>Contatori</th><th>Punti</th><th>€/Punto</th><th>€</th></tr></thead><!-- Injection JavaScript --></table>';
+            divObject.innerHTML = '<h2>' + saveListLCL[i].LCL + '<i class="w3-small"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i></h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th style="width: 40%;">Causale</th><th class="w3-center">Contatori</th><th class="w3-center">Punti</th><th class="w3-center">€/Punto</th><th class="w3-center">€</th></tr></thead><!-- Injection JavaScript --></table>';
 
 
             var jsonCalcTable;
@@ -525,11 +525,11 @@ function calcBeneficit() {
                         if (jsonCalcTable.CEP[j].key == "CON") {
                             var tot = LCL.CON * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
                             subTot += tot;
-                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + LCL.CON + "</td><td>" + jsonCalcTable.CEP[j].value + "</td><td>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td>" + formatter.format(tot) + "</td>";
+                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td class='w3-center'>" + LCL.CON + "</td><td class='w3-center'>" + jsonCalcTable.CEP[j].value + "</td><td class='w3-center'>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td class='w3-center'>" + formatter.format(tot) + "</td>";
                         } else if (jsonCalcTable.CEP[j].key == "AV") {
                             var tot = LCL.AV * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
                             subTot += tot;
-                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + LCL.AV + "</td><td>" + jsonCalcTable.CEP[j].value + "</td><td>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td>" + formatter.format(tot) + "</td>";
+                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td class='w3-center'>" + LCL.AV + "</td><td class='w3-center'>" + jsonCalcTable.CEP[j].value + "</td><td class='w3-center'>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td class='w3-center'>" + formatter.format(tot) + "</td>";
                         }
                         divObject.querySelector("#lclPerCent").appendChild(row);
 
@@ -538,7 +538,7 @@ function calcBeneficit() {
             }
 
             var row = document.createElement("tr");
-            row.innerHTML = "<td>" + "Totale:" + "</td><td></td><td></td><td></td><td>" + formatter.format(subTot) + "</td>";
+            row.innerHTML = "<td>" + "Totale:" + "</td><td></td><td></td><td></td><td class='w3-center'>" + formatter.format(subTot) + "</td>";
             divObject.querySelector("#lclPerCent").appendChild(row);
 
             document.querySelector("#listCnLCL").appendChild(divObject);
