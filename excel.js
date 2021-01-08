@@ -516,6 +516,7 @@ function calcBeneficit() {
             }
 
             var subTot = 0;
+            var formatter = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' });
             for (let j = 0; j < jsonCalcTable.CEP.length; j++) {
                 for (let jj = 0; jj < jsonCalcTable.EUP.length; jj++) {
                     if (saveListLCL[i].TYPE == jsonCalcTable.CEP[j].filter && saveListLCL[i].CN == jsonCalcTable.EUP[jj].key) {
@@ -524,11 +525,11 @@ function calcBeneficit() {
                         if (jsonCalcTable.CEP[j].key == "CON") {
                             var tot = LCL.CON * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
                             subTot += tot;
-                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + LCL.CON + "</td><td>" + jsonCalcTable.CEP[j].value + "</td><td>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td>" + tot.toFixed(2) + "€" + "</td>";
+                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + LCL.CON + "</td><td>" + jsonCalcTable.CEP[j].value + "</td><td>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td>" + formatter.format(tot) + "</td>";
                         } else if (jsonCalcTable.CEP[j].key == "AV") {
                             var tot = LCL.AV * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
                             subTot += tot;
-                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + LCL.AV + "</td><td>" + jsonCalcTable.CEP[j].value + "</td><td>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td>" + tot.toFixed(2) + "€" + "</td>";
+                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + LCL.AV + "</td><td>" + jsonCalcTable.CEP[j].value + "</td><td>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td>" + formatter.format(tot) + "</td>";
                         }
                         divObject.querySelector("#lclPerCent").appendChild(row);
 
@@ -537,7 +538,7 @@ function calcBeneficit() {
             }
 
             var row = document.createElement("tr");
-            row.innerHTML = "<td>" + "Totale:" + "</td><td></td><td></td><td></td><td>" + subTot.toFixed(2) + "€" + "</td>";
+            row.innerHTML = "<td>" + "Totale:" + "</td><td></td><td></td><td></td><td>" + formatter.format(subTot) + "</td>";
             divObject.querySelector("#lclPerCent").appendChild(row);
 
             document.querySelector("#listCnLCL").appendChild(divObject);
