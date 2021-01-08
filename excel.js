@@ -451,15 +451,15 @@ function calcBeneficit() {
                 "GG3": 0
             };
 
-            for (let j = 0; j < saveLoadFile.length; j++) {
-                if (saveListLCL[i].LCL == saveLoadFile[j].LCL) {
+            for (let ii = 0; ii < saveLoadFile.length; ii++) {
+                if (saveListLCL[i].LCL == saveLoadFile[ii].LCL) {
                     LCL.TOT += 1;
-                    if (saveLoadFile[i]["Stato OdL"].localeCompare("Annullato") == 0) {
+                    if (saveLoadFile[ii]["Stato OdL"].localeCompare("Annullato") == 0) {
                         LCL.ANN += 1;
-                    } else if (saveLoadFile[i]["Stato OdL"].localeCompare("Chiuso") == 0 && (saveLoadFile[i]["Causale Esito"].localeCompare("OK FINALE") == 0 || saveLoadFile[i]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
+                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && (saveLoadFile[ii]["Causale Esito"].localeCompare("OK FINALE") == 0 || saveLoadFile[ii]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
                         LCL.CON += 1;
 
-                        const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[i]["Data e ora fine esecuzione"]));
+                        const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[ii]["Data e ora fine esecuzione"]));
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
                         if (diffDays <= 30) {
                             LCL.GG1 += 1;
@@ -469,24 +469,16 @@ function calcBeneficit() {
                             LCL.GG3 += 1;
                         }
 
-                    } else if (saveLoadFile[i]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[i]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
+                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
                         LCL.AV += 1;
                     }
+
                 }
             }
 
             LCLs.push(LCL);
-        }
-    }
 
-    console.log(LCLs);
-
-    LCLs.sort(function (a, b) {
-        return a.LCL - b.LCL;
-    });
-
-    for (let i = 0; i < saveListLCL.length; i++) {
-        if (saveListLCL[i].SELECT == true) {
+            //CODE
             var divObject = document.createElement('div');
             divObject.classList.add("w3-containery");
             divObject.classList.add("w3-light-grey");
@@ -514,7 +506,7 @@ function calcBeneficit() {
             }
             divObject.innerHTML = '<h2>' + saveListLCL[i].LCL + '<i class="w3-small"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i></h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th style="width: 45%;">Causale</th><th>Contatori</th><th>Punti</th><th>€/Punto</th><th>€</th></tr></thead><!-- Injection JavaScript --></table>';
 
-            //CODE
+
             var jsonCalcTable;
             if (localStorage.getItem("calcTable")) {
                 jsonCalcTable = JSON.parse(localStorage.getItem("calcTable"));
@@ -523,20 +515,29 @@ function calcBeneficit() {
                 jsonCalcTable = nevCalcTable;
             }
 
+            var subTot = 0;
             for (let j = 0; j < jsonCalcTable.CEP.length; j++) {
-                if (saveListLCL[i].TYPE == jsonCalcTable.CEP[j].filter) {
-                    var row = document.createElement("tr");
-                    row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + "84" + "</td><td>" + "2.5" + "</td><td>" + "4.5€" + "</td><td>" + "945€" + "</td>";
-                    divObject.querySelector("#lclPerCent").appendChild(row);
+                for (let jj = 0; jj < jsonCalcTable.EUP.length; jj++) {
+                    if (saveListLCL[i].TYPE == jsonCalcTable.CEP[j].filter && saveListLCL[i].CN == jsonCalcTable.EUP[jj].key) {
+
+                        var row = document.createElement("tr");
+                        if (jsonCalcTable.CEP[j].key == "CON") {
+                            var tot = LCL.CON * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
+                            subTot += tot;
+                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + LCL.CON + "</td><td>" + jsonCalcTable.CEP[j].value + "</td><td>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td>" + tot.toFixed(2) + "€" + "</td>";
+                        } else if (jsonCalcTable.CEP[j].key == "AV") {
+                            var tot = LCL.AV * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
+                            subTot += tot;
+                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + LCL.AV + "</td><td>" + jsonCalcTable.CEP[j].value + "</td><td>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td>" + tot.toFixed(2) + "€" + "</td>";
+                        }
+                        divObject.querySelector("#lclPerCent").appendChild(row);
+
+                    }
                 }
             }
 
-            for (let i = 0; i < jsonCalcTable.EUP.length; i++) {
-                //Contratto
-            }
-
             var row = document.createElement("tr");
-            row.innerHTML = "<td>" + "Totale:" + "</td><td></td><td></td><td></td><td>" + "69309€" + "</td>";
+            row.innerHTML = "<td>" + "Totale:" + "</td><td></td><td></td><td></td><td>" + subTot.toFixed(2) + "€" + "</td>";
             divObject.querySelector("#lclPerCent").appendChild(row);
 
             document.querySelector("#listCnLCL").appendChild(divObject);
