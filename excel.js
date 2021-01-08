@@ -458,7 +458,7 @@ function calcBeneficit() {
                         LCL.ANN += 1;
                     } else if (saveLoadFile[i]["Stato OdL"].localeCompare("Chiuso") == 0 && (saveLoadFile[i]["Causale Esito"].localeCompare("OK FINALE") == 0 || saveLoadFile[i]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
                         LCL.CON += 1;
-        
+
                         const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[i]["Data e ora fine esecuzione"]));
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
                         if (diffDays <= 30) {
@@ -468,7 +468,7 @@ function calcBeneficit() {
                         } else {
                             LCL.GG3 += 1;
                         }
-        
+
                     } else if (saveLoadFile[i]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[i]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
                         LCL.AV += 1;
                     }
@@ -513,64 +513,35 @@ function calcBeneficit() {
                     break;
             }
             divObject.innerHTML = '<h2>' + saveListLCL[i].LCL + '<i class="w3-small"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i></h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th>Causale</th><th>Contatori</th><th>Punti</th><th>€/Punto</th><th>€</th></tr></thead><!-- Injection JavaScript --></table>';
-            
+
             //CODE
+            var jsonCalcTable;
+            if (localStorage.getItem("calcTable")) {
+                jsonCalcTable = JSON.parse(localStorage.getItem("calcTable"));
+            } else {
+                localStorage.setItem("calcTable", JSON.stringify(nevCalcTable));
+                jsonCalcTable = nevCalcTable;
+            }
+
+            for (let j = 0; j < jsonCalcTable.CEP.length; j++) {
+                if (saveListLCL[i].TYPE == jsonCalcTable.CEP[j].filter) {
+                    var row = document.createElement("tr");
+                    row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td>" + "84" + "</td><td>" + "2.5" + "</td><td>" + "4.5€" + "</td><td>" + "945€" + "</td>";
+                    divObject.querySelector("#lclPerCent").appendChild(row);
+                }
+            }
+
+            for (let i = 0; i < jsonCalcTable.EUP.length; i++) {
+                //Contratto
+            }
+
             var row = document.createElement("tr");
-            row.innerHTML = "<td>" + "Accesso a Vuoto:" + "</td><td>" + "84" + "</td><td>" + "2.5" + "</td><td>" + "4.5€" + "</td><td>" + "945€" + "</td>";
-            divObject.querySelector("#lclPerCent").appendChild(row);
-
-            row = document.createElement("tr");
-            row.innerHTML = "<td>" + "Eseguiti:" + "</td><td>" + "84" + "</td><td>" + "2.5" + "</td><td>" + "4.5€" + "</td><td>" + "945€" + "</td>";
-            divObject.querySelector("#lclPerCent").appendChild(row);
-
-            row = document.createElement("tr");
             row.innerHTML = "<td>" + "Totale:" + "</td><td></td><td></td><td></td><td>" + "69309€" + "</td>";
             divObject.querySelector("#lclPerCent").appendChild(row);
 
-            
             document.querySelector("#listCnLCL").appendChild(divObject);
         }
     }
-
-
-    /*var CnList = document.querySelector("#addListCN").children;
-    console.log(CnList);
-
-    for (let i = 0; i < CnList.length; i++) {
-
-        var divObject = document.createElement('div');
-        divObject.classList.add("w3-containery");
-        divObject.classList.add("w3-light-grey");
-        divObject.classList.add("w3-card-4");
-        divObject.innerHTML = '<h2>' + CnList[i].id + '</h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th>LCL</th><th>CON</th><th>AVV</th><th>TOT</th><th>%</th><th>92%</th><th>96%</th></tr></thead><!-- Injection JavaScript --></table>';
-
-        var Cn = JSON.parse(localStorage.getItem("PerCent"));
-        Cn.sort(function (a, b) {
-            return a.LCL - b.LCL;
-        });
-        var count = Object.keys(Cn).length
-        for (let j = 0; j < count; j++) {
-            if (Cn[j].CN == CnList[i].id) {
-                var row = document.createElement("tr");
-                var perCent = ((Cn[j].CON * 100) / (Cn[j].TOT - Cn[j].AV)).toFixed(2);
-                var sti92 = (((92 * (Cn[j].TOT - Cn[j].AV) / 100) - Cn[j].CON) + 1).toFixed(0);
-                var sti96 = (((96 * (Cn[j].TOT - Cn[j].AV) / 100) - Cn[j].CON) + 1).toFixed(0);
-                if (sti92 <= 0) sti92 = "OK";
-                if (sti96 <= 0) sti96 = "OK";
-
-                const diffTime = Math.abs(new Date(Cn[j].Date) - new Date());
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
-                var dataHtml = '<i class="w3-tiny noStamp"> (update ' + diffDays + ' day ago)</i>';
-                if (diffDays <= 0) {
-                    var time = new Date(Cn[j].Date).toLocaleTimeString();
-                    dataHtml = '<i class="w3-tiny noStamp"> (update ' + time + ')</i>';
-                }
-                row.innerHTML = "<td>" + Cn[j].LCL + dataHtml + "</td>" + "<td>" + Cn[j].CON + "</td>" + "<td>" + Cn[j].AV + "</td>" + "<td>" + Cn[j].TOT + "</td>" + "<td>" + perCent + "%</td>" + "<td>" + sti92 + "</td>" + "<td>" + sti96 + "</td>";
-                divObject.querySelector("#lclPerCent").appendChild(row);
-            }
-        }
-        document.querySelector("#listCnLCL").appendChild(divObject);
-    }*/
 
     document.querySelector("#selectLCL").style.display = "none";
     document.querySelector("#BeneficitTab").style.display = "block";
