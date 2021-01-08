@@ -281,7 +281,12 @@ function loadData(data) {
                         break;
                 }
 
-                element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + data[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+                var jsonCalcTable = loadOptions();
+                for (let cnI = 0; cnI < jsonCalcTable.EUP.length; cnI++) {
+                    if (data[i].CN == jsonCalcTable.EUP[cnI].key) {
+                        element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + jsonCalcTable.EUP[cnI].label + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+                    }
+                }
                 document.querySelector("#addListLCL").appendChild(element);
             }
         }
@@ -311,7 +316,7 @@ window.Print = function () {
     setTimeout(function () { a.print(); a.close(); }, 600);
 }
 
-window.options = function () {
+function loadOptions() {
     var jsonCalcTable;
     if (localStorage.getItem("calcTable")) {
         jsonCalcTable = JSON.parse(localStorage.getItem("calcTable"));
@@ -326,6 +331,12 @@ window.options = function () {
     jsonCalcTable.CEP.sort(function (a, b) {
         return b.value - a.value;
     });
+
+    return jsonCalcTable;
+}
+
+window.options = function () {
+    var jsonCalcTable = loadOptions();
 
     var element = document.createElement("ul");
     element.classList.add("w3-ul");
@@ -537,15 +548,12 @@ function calcBeneficit() {
                 default:
                     break;
             }
-            divObject.innerHTML = '<h2>' + saveListLCL[i].LCL + '<i class="w3-small"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i></h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th style="width: 40%;">Causale</th><th class="w3-center">Contatori</th><th class="w3-center">Punti</th><th class="w3-center">€/Punto</th><th class="w3-center">€</th></tr></thead><!-- Injection JavaScript --></table>';
 
-
-            var jsonCalcTable;
-            if (localStorage.getItem("calcTable")) {
-                jsonCalcTable = JSON.parse(localStorage.getItem("calcTable"));
-            } else {
-                localStorage.setItem("calcTable", JSON.stringify(nevCalcTable));
-                jsonCalcTable = nevCalcTable;
+            var jsonCalcTable = loadOptions();
+            for (let cnI = 0; cnI < jsonCalcTable.EUP.length; cnI++) {
+                if (saveListLCL[i].CN == jsonCalcTable.EUP[cnI].key) {
+                    divObject.innerHTML = '<h2>' + saveListLCL[i].LCL + '<i class="w3-small"> (' + jsonCalcTable.EUP[cnI].label + ', ' + typeLCL + ')</i></h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th style="width: 40%;">Causale</th><th class="w3-center">Contatori</th><th class="w3-center">Punti</th><th class="w3-center">€/Punto</th><th class="w3-center">€</th></tr></thead><!-- Injection JavaScript --></table>';
+                }
             }
 
             var subTot = 0;
