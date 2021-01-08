@@ -52,7 +52,7 @@ let nevCalcTable = {
             "label": "Eseguiti TF15/30",
             "filter": "TF",
             "key": "CON",
-            "value": 2.5     
+            "value": 2.5
         }, {
             "label": "Acesso a Vuoto TF15/30",
             "filter": "TF",
@@ -62,7 +62,7 @@ let nevCalcTable = {
             "label": "Eseguiti M2",
             "filter": "M2",
             "key": "CON",
-            "value": 2.5     
+            "value": 2.5
         }, {
             "label": "Acesso a Vuoto M2",
             "filter": "M2",
@@ -133,7 +133,7 @@ let saveListLCL = [{}];
 function getLCL(data) {
     if (data[0].LCL !== undefined) {
         var typelcl = "NaN";
-        if ( data[1]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[1]["CIT"].localeCompare("525") == 0) {
+        if (data[1]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[1]["CIT"].localeCompare("525") == 0) {
             typelcl = "M2";
         } else if (data[1]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[1]["CIT"].localeCompare("521") == 0) {
             typelcl = "MF-R";
@@ -152,7 +152,7 @@ function getLCL(data) {
             "CN": data[1]["Codice contratto"],
             "LCL": data[1].LCL,
             "TYPE": typelcl,
-            "CDATE": convertDate(data[1]["Data creazione"]),
+            "DATE": convertDate(data[1]["Data creazione"]),
             "SELECT": true,
         }];
 
@@ -192,7 +192,7 @@ function getLCL(data) {
                         "CN": data[i]["Codice contratto"],
                         "LCL": data[i].LCL,
                         "TYPE": typelcl,
-                        "CDATE": convertDate(data[i]["Data creazione"]),
+                        "DATE": convertDate(data[i]["Data creazione"]),
                         "SELECT": true,
                     };
 
@@ -206,133 +206,6 @@ function getLCL(data) {
         loadData(LCLs);
     } else {
         //alert("Errato");
-    }
-}
-
-function Calc(data) {
-    if (data[0].LCL !== undefined) {
-        var typelcl = "NaN";
-        if ( data[1]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[1]["CIT"].localeCompare("525") == 0) {
-            typelcl = "M2";
-        } else if (data[1]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[1]["CIT"].localeCompare("521") == 0) {
-            typelcl = "MF-R";
-        }
-        else if (data[1]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[1]["CIT"].localeCompare("523") == 0) {
-            typelcl = "TF-R";
-        }
-        else if (data[1]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[1]["CIT"].localeCompare("520") == 0) {
-            typelcl = "MF";
-        }
-        else if (data[1]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[1]["CIT"].localeCompare("523") == 0) {
-            typelcl = "TF";
-        }
-
-        let LCLs = [{
-            "CN": data[1]["Codice contratto"],
-            "LCL": data[1].LCL,
-            "TYPE": typelcl,
-            "TOT": 0,
-            "CON": 0,
-            "ANN": 0,
-            "AV": 0,
-            "CDATE": convertDate(data[1]["Data creazione"]),
-            "GG1": 0,
-            "GG2": 0,
-            "GG3": 0
-        }];
-
-        var count = Object.keys(data).length;
-        for (let i = 0; i < count; i++) {
-            var LCLexist = false;
-            var lastEneltel;
-            if (lastEneltel !== data[i]["Eneltel"]) {
-                lastEneltel = data[i]["Eneltel"];
-
-                for (let j = 0; j < LCLs.length; j++) {
-                    if (LCLs[j].LCL != undefined && data[i].LCL == LCLs[j].LCL) {
-                        LCLexist = true;
-                        LCLs[j].TOT += 1;
-                        if (data[i]["Stato OdL"].localeCompare("Annullato") == 0) {
-                            LCLs[j].ANN += 1;
-                        } else if (data[i]["Stato OdL"].localeCompare("Chiuso") == 0 && (data[i]["Causale Esito"].localeCompare("OK FINALE") == 0 || data[i]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
-                            LCLs[j].CON += 1;
-
-                            const diffTime = Math.abs(new Date(LCLs[j].CDATE) - convertDate(data[i]["Data e ora fine esecuzione"]));
-                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
-                            if (diffDays <= 30) {
-                                LCLs[j].GG1 += 1;
-                            } else if (diffDays > 30 && diffDays <= 90) {
-                                LCLs[j].GG2 += 1;
-                            } else {
-                                LCLs[j].GG3 += 1;
-                            }
-
-                        } else if (data[i]["Stato OdL"].localeCompare("Chiuso") == 0 && data[i]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
-                            LCLs[j].AV += 1;
-                        }
-                    }
-
-                }
-                if (LCLexist == false) {
-                    LCLexist = false;
-
-                    var typelcl = "NaN";
-                    if (data[i]["Motivazione richiesta"].localeCompare("PRM2") == 0 && data[i]["CIT"].localeCompare("525") == 0) {
-                        typelcl = "M2";
-                    } else if (data[i]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[i]["CIT"].localeCompare("521") == 0) {
-                        typelcl = "MF-R";
-                    }
-                    else if (data[i]["Motivazione richiesta"].localeCompare("RI2G") == 0 && data[i]["CIT"].localeCompare("523") == 0) {
-                        typelcl = "TF-R";
-                    }
-                    else if (data[i]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[i]["CIT"].localeCompare("520") == 0) {
-                        typelcl = "MF";
-                    }
-                    else if (data[i]["Motivazione richiesta"].localeCompare("MA2G") == 0 && data[i]["CIT"].localeCompare("523") == 0) {
-                        typelcl = "TF";
-                    }
-
-                    let LCL = {
-                        "CN": data[i]["Codice contratto"],
-                        "LCL": data[i].LCL,
-                        "TYPE": typelcl,
-                        "TOT": 0,
-                        "CON": 0,
-                        "ANN": 0,
-                        "AV": 0,
-                        "CDATE": convertDate(data[i]["Data creazione"]),
-                        "GG1": 0,
-                        "GG2": 0,
-                        "GG3": 0
-                    };
-
-                    LCL.TOT += 1;
-                    if (data[i]["Stato OdL"].localeCompare("Annullato") == 0) {
-                        LCL.ANN += 1;
-                    } else if (data[i]["Stato OdL"].localeCompare("Chiuso") == 0 && (data[i]["Causale Esito"].localeCompare("OK FINALE") == 0 || data[i]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
-                        LCL.CON += 1;
-
-                        const diffTime = Math.abs(new Date(LCL.CDATE) - convertDate(data[i]["Data e ora fine esecuzione"]));
-                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
-                        if (diffDays <= 30) {
-                            LCL.GG1 += 1;
-                        } else if (diffDays > 30 && diffDays <= 90) {
-                            LCL.GG2 += 1;
-                        } else {
-                            LCL.GG3 += 1;
-                        }
-
-                    } else if (data[i]["Stato OdL"].localeCompare("Chiuso") == 0 && data[i]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
-                        LCL.AV += 1;
-                    }
-
-                    LCLs.push(LCL);
-
-                }
-            }
-        }
-        console.log(LCLs);
-        return LCLs;
     }
 }
 
@@ -386,14 +259,6 @@ function loadData(data) {
         document.querySelector("#loadFile").style.display = "none";
         document.querySelector("#selectLCL").style.display = "block";
     }
-}
-
-window.calcBeneficit = function () {
-    var LCList = document.querySelector("#addListLCL").children;
-    //console.log(LCList);
-
-    document.querySelector("#selectLCL").style.display = "none";
-    document.querySelector("#BeneficitTab").style.display = "block";
 }
 
 window.Print = function () {
@@ -472,7 +337,7 @@ function ediTable(element) {
         }
 
         document.getElementById('modalEditOp').style.display = "block";
-        
+
         elementID.addEventListener('click', saveCalcTable, false);
         elementID.myParam = element;
     }
@@ -498,7 +363,7 @@ function saveCalcTable(evt) {
 function closeModal() {
     document.querySelector('#labelCN').innerHTML = "<!-- Injection JavaScript -->";
     document.querySelector('#euroPunto').value = "";
-    document.getElementById('modalEditOp').style.display='none';
+    document.getElementById('modalEditOp').style.display = 'none';
     elementID.removeEventListener('click', saveCalcTable);
 }
 
@@ -506,7 +371,7 @@ function dateToYMD(date) {
     var d = date.getDate();
     var m = date.getMonth() + 1; //Month from 0 to 11
     var y = date.getFullYear();
-    return '' + y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+    return '' + y + '-' + (m <= 9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
 }
 
 const elementIDlcl = document.querySelector('#ModalButtonSaveLCL');
@@ -515,7 +380,7 @@ function modalEditLCL(element) {
     for (let i = 0; i < saveListLCL.length; i++) {
         if (saveListLCL[i].LCL == element.id) {
             document.querySelector('#labelLCL').innerHTML = saveListLCL[i].LCL + '<i class="w3-small">(' + saveListLCL[i].CN + ')</i>';
-            document.querySelector('#dateLCL').value = dateToYMD(saveListLCL[i].CDATE);
+            document.querySelector('#dateLCL').value = dateToYMD(saveListLCL[i].DATE);
             document.querySelector('#typeLCL').value = saveListLCL[i].TYPE;
 
             elementIDlcl.addEventListener('click', saveCalcTableLCL, false);
@@ -527,11 +392,11 @@ function modalEditLCL(element) {
 function saveCalcTableLCL(evt) {
     for (let i = 0; i < saveListLCL.length; i++) {
         if (saveListLCL[i].LCL == evt.currentTarget.myParam.id) {
-            saveListLCL[i].CDATE = new Date(document.querySelector('#dateLCL').value);
+            saveListLCL[i].DATE = new Date(document.querySelector('#dateLCL').value);
             saveListLCL[i].TYPE = document.querySelector('#typeLCL').value;
 
             document.querySelector('#labelLCL').innerHTML = "<!-- Injection JavaScript -->";
-            document.getElementById('modalEditLCL').style.display='none';
+            document.getElementById('modalEditLCL').style.display = 'none';
 
             var typeLCL = "NaN";
             switch (saveListLCL[i].TYPE) {
@@ -563,6 +428,150 @@ function saveCalcTableLCL(evt) {
 
 function closeModaLCL() {
     document.querySelector('#labelLCL').innerHTML = "<!-- Injection JavaScript -->";
-    document.getElementById('modalEditLCL').style.display='none';
+    document.getElementById('modalEditLCL').style.display = 'none';
     elementID.removeEventListener('click', saveCalcTableLCL);
+}
+
+function calcBeneficit() {
+    let LCLs = [];
+    for (let i = 0; i < saveListLCL.length; i++) {
+        if (saveListLCL[i].SELECT == true) {
+
+            let LCL = {
+                "CN": saveListLCL[i].CN,
+                "LCL": saveListLCL[i].LCL,
+                "TYPE": saveListLCL[i].TYPE,
+                "DATE": saveListLCL[i].DATE,
+                "TOT": 0,
+                "CON": 0,
+                "ANN": 0,
+                "AV": 0,
+                "GG1": 0,
+                "GG2": 0,
+                "GG3": 0
+            };
+
+            for (let j = 0; j < saveLoadFile.length; j++) {
+                if (saveListLCL[i].LCL == saveLoadFile[j].LCL) {
+                    LCL.TOT += 1;
+                    if (saveLoadFile[i]["Stato OdL"].localeCompare("Annullato") == 0) {
+                        LCL.ANN += 1;
+                    } else if (saveLoadFile[i]["Stato OdL"].localeCompare("Chiuso") == 0 && (saveLoadFile[i]["Causale Esito"].localeCompare("OK FINALE") == 0 || saveLoadFile[i]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
+                        LCL.CON += 1;
+        
+                        const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[i]["Data e ora fine esecuzione"]));
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+                        if (diffDays <= 30) {
+                            LCL.GG1 += 1;
+                        } else if (diffDays > 30 && diffDays <= 90) {
+                            LCL.GG2 += 1;
+                        } else {
+                            LCL.GG3 += 1;
+                        }
+        
+                    } else if (saveLoadFile[i]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[i]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
+                        LCL.AV += 1;
+                    }
+                }
+            }
+
+            LCLs.push(LCL);
+        }
+    }
+
+    console.log(LCLs);
+
+    LCLs.sort(function (a, b) {
+        return a.LCL - b.LCL;
+    });
+
+    for (let i = 0; i < saveListLCL.length; i++) {
+        if (saveListLCL[i].SELECT == true) {
+            var divObject = document.createElement('div');
+            divObject.classList.add("w3-containery");
+            divObject.classList.add("w3-light-grey");
+            divObject.classList.add("w3-card-4");
+
+            var typeLCL = "NaN";
+            switch (saveListLCL[i].TYPE) {
+                case "M2":
+                    typeLCL = "M2";
+                    break;
+                case "MF-R":
+                    typeLCL = "MF-TF Recuperi";
+                    break;
+                case "TF-R":
+                    typeLCL = "TF-15/30 Recuperi";
+                    break;
+                case "MF":
+                    typeLCL = "MF-TF";
+                    break;
+                case "TF":
+                    typeLCL = "TF-15/30";
+                    break;
+                default:
+                    break;
+            }
+            divObject.innerHTML = '<h2>' + saveListLCL[i].LCL + '<i class="w3-small"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i></h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th>Causale</th><th>Contatori</th><th>Punti</th><th>€/Punto</th><th>€</th></tr></thead><!-- Injection JavaScript --></table>';
+            
+            //CODE
+            var row = document.createElement("tr");
+            row.innerHTML = "<td>" + "Accesso a Vuoto:" + "</td><td>" + "84" + "</td><td>" + "2.5" + "</td><td>" + "4.5€" + "</td><td>" + "945€" + "</td>";
+            divObject.querySelector("#lclPerCent").appendChild(row);
+
+            row = document.createElement("tr");
+            row.innerHTML = "<td>" + "Eseguiti:" + "</td><td>" + "84" + "</td><td>" + "2.5" + "</td><td>" + "4.5€" + "</td><td>" + "945€" + "</td>";
+            divObject.querySelector("#lclPerCent").appendChild(row);
+
+            row = document.createElement("tr");
+            row.innerHTML = "<td>" + "Totale:" + "</td><td></td><td></td><td></td><td>" + "69309€" + "</td>";
+            divObject.querySelector("#lclPerCent").appendChild(row);
+
+            
+            document.querySelector("#listCnLCL").appendChild(divObject);
+        }
+    }
+
+
+    /*var CnList = document.querySelector("#addListCN").children;
+    console.log(CnList);
+
+    for (let i = 0; i < CnList.length; i++) {
+
+        var divObject = document.createElement('div');
+        divObject.classList.add("w3-containery");
+        divObject.classList.add("w3-light-grey");
+        divObject.classList.add("w3-card-4");
+        divObject.innerHTML = '<h2>' + CnList[i].id + '</h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th>LCL</th><th>CON</th><th>AVV</th><th>TOT</th><th>%</th><th>92%</th><th>96%</th></tr></thead><!-- Injection JavaScript --></table>';
+
+        var Cn = JSON.parse(localStorage.getItem("PerCent"));
+        Cn.sort(function (a, b) {
+            return a.LCL - b.LCL;
+        });
+        var count = Object.keys(Cn).length
+        for (let j = 0; j < count; j++) {
+            if (Cn[j].CN == CnList[i].id) {
+                var row = document.createElement("tr");
+                var perCent = ((Cn[j].CON * 100) / (Cn[j].TOT - Cn[j].AV)).toFixed(2);
+                var sti92 = (((92 * (Cn[j].TOT - Cn[j].AV) / 100) - Cn[j].CON) + 1).toFixed(0);
+                var sti96 = (((96 * (Cn[j].TOT - Cn[j].AV) / 100) - Cn[j].CON) + 1).toFixed(0);
+                if (sti92 <= 0) sti92 = "OK";
+                if (sti96 <= 0) sti96 = "OK";
+
+                const diffTime = Math.abs(new Date(Cn[j].Date) - new Date());
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+                var dataHtml = '<i class="w3-tiny noStamp"> (update ' + diffDays + ' day ago)</i>';
+                if (diffDays <= 0) {
+                    var time = new Date(Cn[j].Date).toLocaleTimeString();
+                    dataHtml = '<i class="w3-tiny noStamp"> (update ' + time + ')</i>';
+                }
+                row.innerHTML = "<td>" + Cn[j].LCL + dataHtml + "</td>" + "<td>" + Cn[j].CON + "</td>" + "<td>" + Cn[j].AV + "</td>" + "<td>" + Cn[j].TOT + "</td>" + "<td>" + perCent + "%</td>" + "<td>" + sti92 + "</td>" + "<td>" + sti96 + "</td>";
+                divObject.querySelector("#lclPerCent").appendChild(row);
+            }
+        }
+        document.querySelector("#listCnLCL").appendChild(divObject);
+    }*/
+
+    document.querySelector("#selectLCL").style.display = "none";
+    document.querySelector("#BeneficitTab").style.display = "block";
 }
