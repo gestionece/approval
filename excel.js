@@ -47,47 +47,47 @@ let nevCalcTable = {
             "label": "Acesso a Vuoto MF-TF",
             "filter": "MF",
             "key": "AV",
-            "value": 2.5
+            "value": 2
         }, {
             "label": "Eseguiti TF15/30",
             "filter": "TF",
             "key": "CON",
-            "value": 2.5
+            "value": 3.5
         }, {
             "label": "Acesso a Vuoto TF15/30",
             "filter": "TF",
             "key": "AV",
-            "value": 2.5
+            "value": 3
         }, {
             "label": "Eseguiti M2",
             "filter": "M2",
             "key": "CON",
-            "value": 2.5
+            "value": 3.5
         }, {
             "label": "Acesso a Vuoto M2",
             "filter": "M2",
             "key": "AV",
-            "value": 2.5
+            "value": 3
         }, {
             "label": "Recuperi Eseguiti MF-TF",
             "filter": "MF-R",
             "key": "CON",
-            "value": 2.5
+            "value": 4.5
         }, {
             "label": "Recuperi Acesso a Vuoto MF-TF",
             "filter": "MF-R",
             "key": "AV",
-            "value": 2.5
+            "value": 3.5
         }, {
             "label": "Recuperi Eseguiti TF15/30",
             "filter": "TF-R",
             "key": "CON",
-            "value": 2.5
+            "value": 5.5
         }, {
             "label": "Recuperi Acesso a Vuoto TF15/30",
             "filter": "TF-R",
             "key": "AV",
-            "value": 2.5
+            "value": 4.5
         }
     ]
 }
@@ -504,7 +504,7 @@ function calcBeneficit() {
                 default:
                     break;
             }
-            divObject.innerHTML = '<h2>' + saveListLCL[i].LCL + '<i class="w3-small"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i></h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th style="width: 45%;">Causale</th><th>Contatori</th><th>Punti</th><th>€/Punto</th><th>€</th></tr></thead><!-- Injection JavaScript --></table>';
+            divObject.innerHTML = '<h2>' + saveListLCL[i].LCL + '<i class="w3-small"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i></h2><table id="lclPerCent" class="w3-table-all w3-hoverable w3-margin-bottom"><thead><tr class="w3-green"><th style="width: 35%;">Causale</th><th>Contatori</th><th>Punti</th><th>€/Punto</th><th>€</th></tr></thead><!-- Injection JavaScript --></table>';
 
 
             var jsonCalcTable;
