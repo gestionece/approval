@@ -615,10 +615,16 @@ function download_csv(filename = "beneficit") {
                     }
                     var tot = numVar * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
                     subTot += tot;
+
+                    //console.log(  (tot).toString().replace(".",",")   );
+
                     row += jsonCalcTable.CEP[j].label + ',' + numVar + ',' + jsonCalcTable.CEP[j].value + ',' + jsonCalcTable.EUP[jj].value + ',' + tot + '\n';
                 }
             }
         }
+
+        //console.log( (subTot).toString().replace(".",",") );
+
         row += 'Totale:,,,,' + subTot + '\n';
         csv += row;
         csv += ',,,,\n,,,,\n';
