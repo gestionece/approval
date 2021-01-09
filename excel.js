@@ -586,7 +586,7 @@ function download_csv(filename = "beneficit") {
         }
         var typeLCL = convertTYPE(saveListLCL[i].TYPE);
         row += typeLCL + ',,\n';
-        row += typeLCL + 'Causale,Contatori,Punti,Euro/Punto,Euro\n';
+        row += 'Causale,Contatori,Punti,Euro/Punto,Euro\n';
         //Start Table CSV
         var subTot = 0;
         for (let j = 0; j < jsonCalcTable.CEP.length; j++) {
@@ -621,7 +621,7 @@ function download_csv(filename = "beneficit") {
         }
         row += 'Totale:,,,,' + subTot + '\n';
         csv += row;
-        csv += '\n\n';
+        csv += ',,,,\n,,,,\n';
     }
     
     var a = document.createElement("a");
