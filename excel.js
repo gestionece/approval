@@ -141,12 +141,12 @@ let nevCalcTable = {
             "label": "Eseguiti MF-TF",
             "filter": "MF",
             "key": "CON",
-            "value": 2.5
+            "value": 2.50
         }, {
             "label": "Acesso a Vuoto MF-TF",
             "filter": "MF",
             "key": "AV",
-            "value": 2
+            "value": 1.20
         }, {
             "label": "Eseguiti TF15/30",
             "filter": "TF",
@@ -156,67 +156,67 @@ let nevCalcTable = {
             "label": "Acesso a Vuoto TF15/30",
             "filter": "TF",
             "key": "AV",
-            "value": 3
+            "value": 1.20
         }, {
             "label": "Eseguiti M2",
             "filter": "M2",
             "key": "CON",
-            "value": 3.5
+            "value": 4.5
         }, {
             "label": "Acesso a Vuoto M2",
             "filter": "M2",
             "key": "AV",
-            "value": 3
+            "value": 1.20
         }, {
             "label": "Recuperi Eseguiti MF-TF",
             "filter": "MF-R",
             "key": "CON",
-            "value": 4.5
+            "value": 3.5
         }, {
             "label": "Recuperi Acesso a Vuoto MF-TF",
             "filter": "MF-R",
             "key": "AV",
-            "value": 3.5
+            "value": 1.20
         }, {
             "label": "Recuperi Eseguiti TF15/30",
             "filter": "TF-R",
             "key": "CON",
-            "value": 5.5
+            "value": 3.5
         }, {
             "label": "Recuperi Acesso a Vuoto TF15/30",
             "filter": "TF-R",
             "key": "AV",
-            "value": 4.5
+            "value": 1.20
         }, { //GG MF-R
             "label": "Eseguiti <30 Giorni MF-TF",
             "filter": "MF-R",
             "key": "GG1",
-            "value": 1
+            "value": 3.50
         }, {
             "label": "Eseguiti 30<>90 Giorni MF-TF",
             "filter": "MF-R",
             "key": "GG2",
-            "value": 0.5
+            "value": 2.50
         }, {
-            "label": "Eseguiti >90 Giorni MF-TF",
+            "label": "Eseguiti 90<>120 Giorni MF-TF",
             "filter": "MF-R",
             "key": "GG3",
-            "value": 0
+            "value": 1.50
         }, {
             "label": "Eseguiti <30 Giorni  TF15/30",
             "filter": "TF-R",
             "key": "GG1",
-            "value": 1.5
+            "value": 3.50
         }, {
             "label": "Eseguiti 30<>90 Giorni TF15/30",
             "filter": "TF-R",
             "key": "GG2",
-            "value": 1
+            "value": 2.50
         }, {
-            "label": "Eseguiti >90 Giorni TF15/30",
+            "label": "Eseguiti 90<>120 Giorni TF15/30",
             "filter": "TF-R",
             "key": "GG3",
-            "value": 0.5
+            "value": 1.50
         }
     ]
 }
