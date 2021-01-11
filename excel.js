@@ -1,39 +1,138 @@
 let nevCalcTable = {
     EUP: [
-        {
+        { //MF-TF
             "label": "Parma",
+            "filter": "MF",
             "key": "8400149083",
             "value": 4.15
         }, {
             "label": "Ferrara",
+            "filter": "MF",
             "key": "8400150707",
             "value": 3.57
         }, {
             "label": "Firenze",
+            "filter": "MF",
             "key": "8400141787",
             "value": 3.83
         }, {
             "label": "Modena-Reggio 1",
+            "filter": "MF",
             "key": "8400124337",
             "value": 4.44
         }, {
             "label": "Rovigo 1",
+            "filter": "MF",
             "key": "8400118979",
             "value": 5.55
         }, {
             "label": "Vicenza",
+            "filter": "MF",
             "key": "8400141790",
             "value": 4.6
         }, {
             "label": "Mantova-Cremona",
+            "filter": "MF",
             "key": "8400149736",
             "value": 4.08
         }, {
             "label": "Padova-Rovigo 2",
+            "filter": "MF",
             "key": "8400149816",
             "value": 4.0
         }, {
             "label": "Reggio-Modena 2",
+            "filter": "MF",
+            "key": "8400151041",
+            "value": 4.15
+        }, { //TF-15/30
+            "label": "Parma",
+            "filter": "TF",
+            "key": "8400149083",
+            "value": 6.00
+        }, {
+            "label": "Ferrara",
+            "filter": "TF",
+            "key": "8400150707",
+            "value": 3.57
+        }, {
+            "label": "Firenze",
+            "filter": "TF",
+            "key": "8400141787",
+            "value": 3.83
+        }, {
+            "label": "Modena-Reggio 1",
+            "filter": "TF",
+            "key": "8400124337",
+            "value": 4.44
+        }, {
+            "label": "Rovigo 1",
+            "filter": "TF",
+            "key": "8400118979",
+            "value": 5.55
+        }, {
+            "label": "Vicenza",
+            "filter": "TF",
+            "key": "8400141790",
+            "value": 4.6
+        }, {
+            "label": "Mantova-Cremona",
+            "filter": "TF",
+            "key": "8400149736",
+            "value": 4.08
+        }, {
+            "label": "Padova-Rovigo 2",
+            "filter": "TF",
+            "key": "8400149816",
+            "value": 4.0
+        }, {
+            "label": "Reggio-Modena 2",
+            "filter": "TF",
+            "key": "8400151041",
+            "value": 4.15
+        }, { //M2
+            "label": "Parma",
+            "filter": "M2",
+            "key": "8400149083",
+            "value": 6.00
+        }, {
+            "label": "Ferrara",
+            "filter": "M2",
+            "key": "8400150707",
+            "value": 3.57
+        }, {
+            "label": "Firenze",
+            "filter": "M2",
+            "key": "8400141787",
+            "value": 3.83
+        }, {
+            "label": "Modena-Reggio 1",
+            "filter": "M2",
+            "key": "8400124337",
+            "value": 4.44
+        }, {
+            "label": "Rovigo 1",
+            "filter": "M2",
+            "key": "8400118979",
+            "value": 5.55
+        }, {
+            "label": "Vicenza",
+            "filter": "M2",
+            "key": "8400141790",
+            "value": 4.6
+        }, {
+            "label": "Mantova-Cremona",
+            "filter": "M2",
+            "key": "8400149736",
+            "value": 4.08
+        }, {
+            "label": "Padova-Rovigo 2",
+            "filter": "M2",
+            "key": "8400149816",
+            "value": 4.0
+        }, {
+            "label": "Reggio-Modena 2",
+            "filter": "M2",
             "key": "8400151041",
             "value": 4.15
         }],
@@ -299,12 +398,14 @@ window.Print = function () {
 
 function loadOptions() {
     var jsonCalcTable;
-    if (localStorage.getItem("calcTable")) {
+    /*if (localStorage.getItem("calcTable")) {
         jsonCalcTable = JSON.parse(localStorage.getItem("calcTable"));
     } else {
         localStorage.setItem("calcTable", JSON.stringify(nevCalcTable));
         jsonCalcTable = nevCalcTable;
-    }
+    }*/
+
+    jsonCalcTable = nevCalcTable;
 
     jsonCalcTable.EUP.sort(function (a, b) {
         return a.label - b.label;
@@ -327,7 +428,7 @@ window.options = function () {
     element.innerHTML = '<!-- Injection JavaScript --><li><h2>€/Punto</h2></li>';
 
     for (let i = 0; i < jsonCalcTable.EUP.length; i++) {
-        element.innerHTML += '<li class="w3-display-container" id="' + jsonCalcTable.EUP[i].key + '"><b>' + jsonCalcTable.EUP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.EUP[i].key + ')</i><span title="Edit" onclick="ediTable(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + parseFloat(jsonCalcTable.EUP[i].value).toFixed(2) + '<i class="w3-tiny">€</i></span></li>';
+        element.innerHTML += '<li class="w3-display-container" id="' + jsonCalcTable.EUP[i].key + '"><b>' + jsonCalcTable.EUP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.EUP[i].key + ', ' + convertTYPE(jsonCalcTable.EUP[i].filter) + ')</i><span title="Edit" onclick="ediTable(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + parseFloat(jsonCalcTable.EUP[i].value).toFixed(2) + '<i class="w3-tiny">€</i></span></li>';
     }
 
     document.querySelector("#optionsList").appendChild(element);
@@ -471,7 +572,7 @@ function calcBeneficit() {
                             LCL.GG1 += 1;
                         } else if (diffDays > 30 && diffDays <= 90) {
                             LCL.GG2 += 1;
-                        } else {
+                        } else if (diffDays > 90 && diffDays <= 120) {
                             LCL.GG3 += 1;
                         }
 
@@ -504,32 +605,34 @@ function calcBeneficit() {
             for (let j = 0; j < jsonCalcTable.CEP.length; j++) {
                 for (let jj = 0; jj < jsonCalcTable.EUP.length; jj++) {
                     if (saveListLCL[i].TYPE == jsonCalcTable.CEP[j].filter && saveListLCL[i].CN == jsonCalcTable.EUP[jj].key) {
+                        if (jsonCalcTable.EUP[jj].filter == (saveListLCL[i].TYPE).substring(0, 2)) {
+                            var row = document.createElement("tr");
+                            var numVar = 0;
+                            switch (jsonCalcTable.CEP[j].key) {
+                                case "CON":
+                                    numVar = LCL.CON;
+                                    break;
+                                case "AV":
+                                    numVar = LCL.AV;
+                                    break;
+                                case "GG1":
+                                    numVar = LCL.GG1;
+                                    break;
+                                case "GG2":
+                                    numVar = LCL.GG2;
+                                    break;
+                                case "GG3":
+                                    numVar = LCL.GG3;
+                                    break;
+                                default:
+                                    break;
+                            }
 
-                        var row = document.createElement("tr");
-                        var numVar = 0;
-                        switch (jsonCalcTable.CEP[j].key) {
-                            case "CON":
-                                numVar = LCL.CON;
-                                break;
-                            case "AV":
-                                numVar = LCL.AV;
-                                break;
-                            case "GG1":
-                                numVar = LCL.GG1;
-                                break;
-                            case "GG2":
-                                numVar = LCL.GG2;
-                                break;
-                            case "GG3":
-                                numVar = LCL.GG3;
-                                break;
-                            default:
-                                break;
+                            var tot = numVar * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
+                            subTot += tot;
+                            row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td class='w3-center'>" + numVar + "</td><td class='w3-center'>" + jsonCalcTable.CEP[j].value + "</td><td class='w3-center'>" + parseFloat(jsonCalcTable.EUP[jj].value).toFixed(2) + "€" + "</td><td class='w3-center'>" + formatter.format(tot) + "</td>";
+                            divObject.querySelector("#lclPerCent").appendChild(row);
                         }
-                        var tot = numVar * jsonCalcTable.CEP[j].value * jsonCalcTable.EUP[jj].value;
-                        subTot += tot;
-                        row.innerHTML = "<td>" + jsonCalcTable.CEP[j].label + "</td><td class='w3-center'>" + numVar + "</td><td class='w3-center'>" + jsonCalcTable.CEP[j].value + "</td><td class='w3-center'>" + jsonCalcTable.EUP[jj].value + "€" + "</td><td class='w3-center'>" + formatter.format(tot) + "</td>";
-                        divObject.querySelector("#lclPerCent").appendChild(row);
                     }
                 }
             }
@@ -629,7 +732,7 @@ function download_csv(filename = "beneficit") {
         csv += row;
         csv += ',,,,\n,,,,\n';
     }
-    
+
     var a = document.createElement("a");
     var url = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
     a.href = url;
