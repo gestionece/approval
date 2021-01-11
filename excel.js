@@ -54,17 +54,17 @@ let nevCalcTable = {
             "label": "Ferrara",
             "filter": "TF",
             "key": "8400150707",
-            "value": 3.57
+            "value": 5.90
         }, {
             "label": "Firenze",
             "filter": "TF",
             "key": "8400141787",
-            "value": 3.83
+            "value": 6.40
         }, {
             "label": "Modena-Reggio 1",
             "filter": "TF",
             "key": "8400124337",
-            "value": 4.44
+            "value": 6.90
         }, {
             "label": "Rovigo 1",
             "filter": "TF",
@@ -74,22 +74,22 @@ let nevCalcTable = {
             "label": "Vicenza",
             "filter": "TF",
             "key": "8400141790",
-            "value": 4.6
+            "value": 6.40
         }, {
             "label": "Mantova-Cremona",
             "filter": "TF",
             "key": "8400149736",
-            "value": 4.08
+            "value": 5.90
         }, {
             "label": "Padova-Rovigo 2",
             "filter": "TF",
             "key": "8400149816",
-            "value": 4.0
+            "value": 5.90
         }, {
             "label": "Reggio-Modena 2",
             "filter": "TF",
             "key": "8400151041",
-            "value": 4.15
+            "value": 5.90
         }, { //M2
             "label": "Parma",
             "filter": "M2",
@@ -99,17 +99,17 @@ let nevCalcTable = {
             "label": "Ferrara",
             "filter": "M2",
             "key": "8400150707",
-            "value": 3.57
+            "value": 5.90
         }, {
             "label": "Firenze",
             "filter": "M2",
             "key": "8400141787",
-            "value": 3.83
+            "value": 6.40
         }, {
             "label": "Modena-Reggio 1",
             "filter": "M2",
             "key": "8400124337",
-            "value": 4.44
+            "value": 6.90
         }, {
             "label": "Rovigo 1",
             "filter": "M2",
@@ -119,22 +119,22 @@ let nevCalcTable = {
             "label": "Vicenza",
             "filter": "M2",
             "key": "8400141790",
-            "value": 4.6
+            "value": 6.40
         }, {
             "label": "Mantova-Cremona",
             "filter": "M2",
             "key": "8400149736",
-            "value": 4.08
+            "value": 5.90
         }, {
             "label": "Padova-Rovigo 2",
             "filter": "M2",
             "key": "8400149816",
-            "value": 4.0
+            "value": 5.90
         }, {
             "label": "Reggio-Modena 2",
             "filter": "M2",
             "key": "8400151041",
-            "value": 4.15
+            "value": 5.90
         }],
     CEP: [
         {
