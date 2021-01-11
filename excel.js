@@ -3,39 +3,39 @@ let nevCalcTable = {
         {
             "label": "Parma",
             "key": "8400149083",
-            "value": 4.5
+            "value": 4.15
         }, {
             "label": "Ferrara",
             "key": "8400150707",
-            "value": 4.5
+            "value": 3.57
         }, {
             "label": "Firenze",
             "key": "8400141787",
-            "value": 4.5
+            "value": 3.83
         }, {
             "label": "Modena-Reggio 1",
             "key": "8400124337",
-            "value": "4.5"
+            "value": 4.44
         }, {
             "label": "Rovigo 1",
             "key": "8400118979",
-            "value": 4.5
+            "value": 5.55
         }, {
             "label": "Vicenza",
             "key": "8400141790",
-            "value": 4.5
+            "value": 4.6
         }, {
             "label": "Mantova-Cremona",
             "key": "8400149736",
-            "value": 4.5
+            "value": 4.08
         }, {
             "label": "Padova-Rovigo 2",
             "key": "8400149816",
-            "value": 4.5
+            "value": 4.0
         }, {
             "label": "Reggio-Modena 2",
             "key": "8400151041",
-            "value": 4.5
+            "value": 4.15
         }],
     CEP: [
         {
@@ -327,7 +327,7 @@ window.options = function () {
     element.innerHTML = '<!-- Injection JavaScript --><li><h2>€/Punto</h2></li>';
 
     for (let i = 0; i < jsonCalcTable.EUP.length; i++) {
-        element.innerHTML += '<li class="w3-display-container" id="' + jsonCalcTable.EUP[i].key + '"><b>' + jsonCalcTable.EUP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.EUP[i].key + ')</i><span title="Edit" onclick="ediTable(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + parseFloat(jsonCalcTable.EUP[i].value).toFixed(1) + '<i class="w3-tiny">€</i></span></li>';
+        element.innerHTML += '<li class="w3-display-container" id="' + jsonCalcTable.EUP[i].key + '"><b>' + jsonCalcTable.EUP[i].label + '</b><i class="w3-tiny">(' + jsonCalcTable.EUP[i].key + ')</i><span title="Edit" onclick="ediTable(this.parentElement);" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + parseFloat(jsonCalcTable.EUP[i].value).toFixed(2) + '<i class="w3-tiny">€</i></span></li>';
     }
 
     document.querySelector("#optionsList").appendChild(element);
@@ -340,7 +340,7 @@ window.options = function () {
     element.innerHTML = '<!-- Injection JavaScript --><li><h2>Contatore/Punto</h2></li>';
 
     for (let i = 0; i < jsonCalcTable.CEP.length; i++) {
-        element.innerHTML += '<li class="w3-display-container"><b>' + jsonCalcTable.CEP[i].label + '</b><span title="Edit" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + parseFloat(jsonCalcTable.CEP[i].value).toFixed(1) + '<i class="w3-tiny">p</i></span></li>';
+        element.innerHTML += '<li class="w3-display-container"><b>' + jsonCalcTable.CEP[i].label + '</b><span title="Edit" class="w3-button w3-transparent w3-display-right w3-hover-yellow">' + parseFloat(jsonCalcTable.CEP[i].value).toFixed(2) + '<i class="w3-tiny">p</i></span></li>';
     }
 
     document.querySelector("#optionsList").appendChild(element);
