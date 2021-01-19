@@ -249,6 +249,7 @@ document.getElementById('button').addEventListener("click", () => {
             });
         }
     }
+
 });
 
 function convertDate(stringDate) {
