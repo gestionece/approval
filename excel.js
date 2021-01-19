@@ -362,10 +362,15 @@ function loadData(data) {
                 var typeLCL = convertTYPE(data[i].TYPE);
 
                 var jsonCalcTable = loadOptions();
+                var existCN = false;
                 for (let cnI = 0; cnI < jsonCalcTable.EUP.length; cnI++) {
                     if (data[i].CN == jsonCalcTable.EUP[cnI].key) {
+                        existCN = true;
                         element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + jsonCalcTable.EUP[cnI].label + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
                     }
+                }
+                if (existCN == false) {
+                    element.innerHTML = '<b>' + data[i].LCL + '</b><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';    
                 }
                 document.querySelector("#addListLCL").appendChild(element);
             }
