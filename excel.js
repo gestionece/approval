@@ -529,15 +529,21 @@ function modalEditLCL(element) {
 function saveCalcTableLCL(evt) {
     for (let i = 0; i < saveListLCL.length; i++) {
         if (saveListLCL[i].LCL == evt.currentTarget.myParam.id) {
-            let tempDate = saveListLCL[i].DATE
+            var tempDate = saveListLCL[i].DATE;
             saveListLCL[i].DATE = new Date(document.querySelector('#dateLCL').value);
             saveListLCL[i].TYPE = document.querySelector('#typeLCL').value;
 
             document.querySelector('#labelLCL').innerHTML = "<!-- Injection JavaScript -->";
             document.getElementById('modalEditLCL').style.display = 'none';
 
+            Date.prototype.sameDay = function(d) {
+                return this.getFullYear() === d.getFullYear()
+                  && this.getDate() === d.getDate()
+                  && this.getMonth() === d.getMonth();
+              }
+
             var warningTriangleRipassi = "";
-            if (saveListLCL[i].TYPE.substr(saveListLCL[i].TYPE.length - 1) == "R" && tempDate != new Date(document.querySelector('#dateLCL').value)) {
+            if (saveListLCL[i].TYPE.substr(saveListLCL[i].TYPE.length - 1) == "R" && tempDate.sameDay(new Date(document.querySelector('#dateLCL').value))) {
                  warningTriangleRipassi = '<span class="w3-text-orange">&#x26A0;</span>';
             }
 
