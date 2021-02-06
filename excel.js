@@ -563,6 +563,7 @@ function closeModaLCL() {
 
 let saveResultBeneficit;
 function calcBeneficit() {
+    let totGuadagno = 0; //per calcolo guadagno totale
     let LCLs = [];
     for (let i = 0; i < saveListLCL.length; i++) {
         if (saveListLCL[i].SELECT == true) {
@@ -672,8 +673,14 @@ function calcBeneficit() {
             divObject.querySelector("#lclPerCent").appendChild(row);
 
             document.querySelector("#listCnLCL").appendChild(divObject);
+
+            totGuadagno += subTot;
         }
+
+
     }
+
+    alert(formatter.format(totGuadagno));//per calcolo totale 
 
     saveResultBeneficit = LCLs;
 
