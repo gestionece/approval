@@ -362,12 +362,18 @@ function loadData(data) {
 
                 var typeLCL = convertTYPE(data[i].TYPE);
 
+                var warningTriangleRipassi = "";
+                if (saveListLCL[i].TYPE.substr(saveListLCL[i].TYPE.length - 1) == "R") {
+                    console.log();
+                     warningTriangleRipassi = '<span class="w3-text-orange">&#x26A0;</span>';
+                }
+
                 var jsonCalcTable = loadOptions();
                 var existCN = false;
                 for (let cnI = 0; cnI < jsonCalcTable.EUP.length; cnI++) {
                     if (data[i].CN == jsonCalcTable.EUP[cnI].key) {
                         existCN = true;
-                        element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + jsonCalcTable.EUP[cnI].label + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+                        element.innerHTML = warningTriangleRipassi + '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + jsonCalcTable.EUP[cnI].label + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
                     }
                 }
                 if (existCN == false) {
@@ -530,8 +536,14 @@ function saveCalcTableLCL(evt) {
             document.querySelector('#labelLCL').innerHTML = "<!-- Injection JavaScript -->";
             document.getElementById('modalEditLCL').style.display = 'none';
 
+            var warningTriangleRipassi = "";
+            if (saveListLCL[i].TYPE.substr(saveListLCL[i].TYPE.length - 1) == "R") {
+                console.log();
+                 warningTriangleRipassi = '<span class="w3-text-orange">&#x26A0;</span>';
+            }
+
             var typeLCL = convertTYPE(saveListLCL[i].TYPE);
-            evt.currentTarget.myParam.innerHTML = '<b>' + saveListLCL[i].LCL + '</b><i class="w3-tiny"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+            evt.currentTarget.myParam.innerHTML = warningTriangleRipassi + '<b>' + saveListLCL[i].LCL + '</b><i class="w3-tiny"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
         }
     }
 
@@ -572,10 +584,11 @@ function calcBeneficit() {
                             continue;
                         }
                     }
+
                     LCL.TOT += 1;
                     if (saveLoadFile[ii]["Stato OdL"].localeCompare("Annullato") == 0) {
                         LCL.ANN += 1;
-                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Esito"].localeCompare("OK") == 0) {
+                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && (saveLoadFile[ii]["Causale Esito"].localeCompare("OK FINALE") == 0 || saveLoadFile[ii]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
                         LCL.CON += 1;
 
                         const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[ii]["Data e ora fine esecuzione"]));
@@ -591,6 +604,7 @@ function calcBeneficit() {
                     } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
                         LCL.AV += 1;
                     }
+
                 }
             }
 
