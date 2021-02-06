@@ -168,22 +168,22 @@ let nevCalcTable = {
             "key": "AV",
             "value": 1.20
         }, {
-            "label": "Recuperi Eseguiti MF-TF",
+            "label": "Ripassi Eseguiti MF-TF",
             "filter": "MF-R",
             "key": "CON",
             "value": 3.5
         }, {
-            "label": "Recuperi Acesso a Vuoto MF-TF",
+            "label": "Ripassi Acesso a Vuoto MF-TF",
             "filter": "MF-R",
             "key": "AV",
             "value": 1.20
         }, {
-            "label": "Recuperi Eseguiti TF15/30",
+            "label": "Ripassi Eseguiti TF15/30",
             "filter": "TF-R",
             "key": "CON",
             "value": 3.5
         }, {
-            "label": "Recuperi Acesso a Vuoto TF15/30",
+            "label": "Ripassi Acesso a Vuoto TF15/30",
             "filter": "TF-R",
             "key": "AV",
             "value": 1.20
@@ -371,7 +371,7 @@ function loadData(data) {
                     }
                 }
                 if (existCN == false) {
-                    element.innerHTML = '<b>' + data[i].LCL + '</b><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';    
+                    element.innerHTML = '<b>' + data[i].LCL + '</b><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
                 }
                 document.querySelector("#addListLCL").appendChild(element);
             }
@@ -566,32 +566,38 @@ function calcBeneficit() {
 
             for (let ii = 0; ii < saveLoadFile.length; ii++) {
                 if (saveListLCL[i].LCL == saveLoadFile[ii].LCL) {
-                    LCL.TOT += 1;
-                    if (saveLoadFile[ii]["Stato OdL"].localeCompare("Annullato") == 0) {
-                        LCL.ANN += 1;
-                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && (saveLoadFile[ii]["Causale Esito"].localeCompare("OK FINALE") == 0 || saveLoadFile[ii]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
-                        LCL.CON += 1;
 
-                        const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[ii]["Data e ora fine esecuzione"]));
-                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
-                        if (diffDays <= 30) {
-                            LCL.GG1 += 1;
-                        } else if (diffDays > 30 && diffDays <= 90) {
-                            LCL.GG2 += 1;
-                        } else if (diffDays > 90 && diffDays <= 120) {
-                            LCL.GG3 += 1;
+                    if (ii + 1 < saveLoadFile.length) {
+                        if (saveLoadFile[ii]["Eneltel"] == saveLoadFile[ii + 1]["Eneltel"]) {
+                            continue;
                         }
+                    } else {
+                        LCL.TOT += 1;
+                        if (saveLoadFile[ii]["Stato OdL"].localeCompare("Annullato") == 0) {
+                            LCL.ANN += 1;
+                        } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Esito"].localeCompare("OK") == 0 ) {
+                            LCL.CON += 1;
 
-                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
-                        LCL.AV += 1;
+                            const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[ii]["Data e ora fine esecuzione"]));
+                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+                            if (diffDays <= 30) {
+                                LCL.GG1 += 1;
+                            } else if (diffDays > 30 && diffDays <= 90) {
+                                LCL.GG2 += 1;
+                            } else if (diffDays > 90 && diffDays <= 120) {
+                                LCL.GG3 += 1;
+                            }
+
+                        } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
+                            LCL.AV += 1;
+                        }
                     }
-
                 }
             }
 
             LCLs.push(LCL);
 
-            //CODE
+            //CODE create table
             var divObject = document.createElement('div');
             divObject.classList.add("w3-containery");
             divObject.classList.add("w3-light-grey");
@@ -664,10 +670,10 @@ function convertTYPE(type) {
             typeLCL = "M2";
             break;
         case "MF-R":
-            typeLCL = "MF-TF Recuperi";
+            typeLCL = "MF-TF Ripassi";
             break;
         case "TF-R":
-            typeLCL = "TF-15/30 Recuperi";
+            typeLCL = "TF-15/30 Ripassi";
             break;
         case "MF":
             typeLCL = "MF-TF";
