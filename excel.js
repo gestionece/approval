@@ -364,7 +364,6 @@ function loadData(data) {
 
                 var warningTriangleRipassi = "";
                 if (saveListLCL[i].TYPE.substr(saveListLCL[i].TYPE.length - 1) == "R") {
-                    console.log();
                      warningTriangleRipassi = '<span class="w3-text-orange">&#x26A0;</span>';
                 }
 
@@ -530,6 +529,7 @@ function modalEditLCL(element) {
 function saveCalcTableLCL(evt) {
     for (let i = 0; i < saveListLCL.length; i++) {
         if (saveListLCL[i].LCL == evt.currentTarget.myParam.id) {
+            let tempDate = saveListLCL[i].DATE
             saveListLCL[i].DATE = new Date(document.querySelector('#dateLCL').value);
             saveListLCL[i].TYPE = document.querySelector('#typeLCL').value;
 
@@ -537,8 +537,7 @@ function saveCalcTableLCL(evt) {
             document.getElementById('modalEditLCL').style.display = 'none';
 
             var warningTriangleRipassi = "";
-            if (saveListLCL[i].TYPE.substr(saveListLCL[i].TYPE.length - 1) == "R") {
-                console.log();
+            if (saveListLCL[i].TYPE.substr(saveListLCL[i].TYPE.length - 1) == "R" && tempDate != new Date(document.querySelector('#dateLCL').value)) {
                  warningTriangleRipassi = '<span class="w3-text-orange">&#x26A0;</span>';
             }
 
