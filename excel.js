@@ -571,26 +571,25 @@ function calcBeneficit() {
                         if (saveLoadFile[ii]["Eneltel"] == saveLoadFile[ii + 1]["Eneltel"]) {
                             continue;
                         }
-                    } else {
-                        LCL.TOT += 1;
-                        if (saveLoadFile[ii]["Stato OdL"].localeCompare("Annullato") == 0) {
-                            LCL.ANN += 1;
-                        } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Esito"].localeCompare("OK") == 0 ) {
-                            LCL.CON += 1;
+                    }
+                    LCL.TOT += 1;
+                    if (saveLoadFile[ii]["Stato OdL"].localeCompare("Annullato") == 0) {
+                        LCL.ANN += 1;
+                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Esito"].localeCompare("OK") == 0) {
+                        LCL.CON += 1;
 
-                            const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[ii]["Data e ora fine esecuzione"]));
-                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
-                            if (diffDays <= 30) {
-                                LCL.GG1 += 1;
-                            } else if (diffDays > 30 && diffDays <= 90) {
-                                LCL.GG2 += 1;
-                            } else if (diffDays > 90 && diffDays <= 120) {
-                                LCL.GG3 += 1;
-                            }
-
-                        } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
-                            LCL.AV += 1;
+                        const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[ii]["Data e ora fine esecuzione"]));
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+                        if (diffDays <= 30) {
+                            LCL.GG1 += 1;
+                        } else if (diffDays > 30 && diffDays <= 90) {
+                            LCL.GG2 += 1;
+                        } else if (diffDays > 90 && diffDays <= 120) {
+                            LCL.GG3 += 1;
                         }
+
+                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
+                        LCL.AV += 1;
                     }
                 }
             }
