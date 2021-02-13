@@ -168,22 +168,22 @@ let nevCalcTable = {
             "key": "AV",
             "value": 1.20
         }, {
-            "label": "Recuperi Eseguiti MF-TF",
+            "label": "Ripassi Eseguiti MF-TF",
             "filter": "MF-R",
             "key": "CON",
             "value": 3.5
         }, {
-            "label": "Recuperi Acesso a Vuoto MF-TF",
+            "label": "Ripassi Acesso a Vuoto MF-TF",
             "filter": "MF-R",
             "key": "AV",
             "value": 1.20
         }, {
-            "label": "Recuperi Eseguiti TF15/30",
+            "label": "Ripassi Eseguiti TF15/30",
             "filter": "TF-R",
             "key": "CON",
             "value": 3.5
         }, {
-            "label": "Recuperi Acesso a Vuoto TF15/30",
+            "label": "Ripassi Acesso a Vuoto TF15/30",
             "filter": "TF-R",
             "key": "AV",
             "value": 1.20
@@ -362,16 +362,21 @@ function loadData(data) {
 
                 var typeLCL = convertTYPE(data[i].TYPE);
 
+                var warningTriangleRipassi = "";
+                if (saveListLCL[i].TYPE.substr(saveListLCL[i].TYPE.length - 1) == "R") {
+                     warningTriangleRipassi = '<span class="w3-text-orange">&#x26A0;</span>';
+                }
+
                 var jsonCalcTable = loadOptions();
                 var existCN = false;
                 for (let cnI = 0; cnI < jsonCalcTable.EUP.length; cnI++) {
                     if (data[i].CN == jsonCalcTable.EUP[cnI].key) {
                         existCN = true;
-                        element.innerHTML = '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + jsonCalcTable.EUP[cnI].label + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+                        element.innerHTML = warningTriangleRipassi + '<b>' + data[i].LCL + '</b><i class="w3-tiny"> (' + jsonCalcTable.EUP[cnI].label + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
                     }
                 }
                 if (existCN == false) {
-                    element.innerHTML = '<b>' + data[i].LCL + '</b><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';    
+                    element.innerHTML = '<b>' + data[i].LCL + '</b><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
                 }
                 document.querySelector("#addListLCL").appendChild(element);
             }
@@ -524,14 +529,26 @@ function modalEditLCL(element) {
 function saveCalcTableLCL(evt) {
     for (let i = 0; i < saveListLCL.length; i++) {
         if (saveListLCL[i].LCL == evt.currentTarget.myParam.id) {
+            var tempDate = saveListLCL[i].DATE;
             saveListLCL[i].DATE = new Date(document.querySelector('#dateLCL').value);
             saveListLCL[i].TYPE = document.querySelector('#typeLCL').value;
 
             document.querySelector('#labelLCL').innerHTML = "<!-- Injection JavaScript -->";
             document.getElementById('modalEditLCL').style.display = 'none';
 
+            Date.prototype.sameDay = function(d) {
+                return this.getFullYear() === d.getFullYear()
+                  && this.getDate() === d.getDate()
+                  && this.getMonth() === d.getMonth();
+              }
+
+            var warningTriangleRipassi = "";
+            if (saveListLCL[i].TYPE.substr(saveListLCL[i].TYPE.length - 1) == "R" && tempDate.sameDay(new Date(document.querySelector('#dateLCL').value))) {
+                 warningTriangleRipassi = '<span class="w3-text-orange">&#x26A0;</span>';
+            }
+
             var typeLCL = convertTYPE(saveListLCL[i].TYPE);
-            evt.currentTarget.myParam.innerHTML = '<b>' + saveListLCL[i].LCL + '</b><i class="w3-tiny"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+            evt.currentTarget.myParam.innerHTML = warningTriangleRipassi + '<b>' + saveListLCL[i].LCL + '</b><i class="w3-tiny"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
         }
     }
 
@@ -546,6 +563,7 @@ function closeModaLCL() {
 
 let saveResultBeneficit;
 function calcBeneficit() {
+    let totGuadagno = 0; //per calcolo guadagno totale
     let LCLs = [];
     for (let i = 0; i < saveListLCL.length; i++) {
         if (saveListLCL[i].SELECT == true) {
@@ -566,6 +584,13 @@ function calcBeneficit() {
 
             for (let ii = 0; ii < saveLoadFile.length; ii++) {
                 if (saveListLCL[i].LCL == saveLoadFile[ii].LCL) {
+
+                    if (ii + 1 < saveLoadFile.length) {
+                        if (saveLoadFile[ii]["Eneltel"] == saveLoadFile[ii + 1]["Eneltel"]) {
+                            continue;
+                        }
+                    }
+
                     LCL.TOT += 1;
                     if (saveLoadFile[ii]["Stato OdL"].localeCompare("Annullato") == 0) {
                         LCL.ANN += 1;
@@ -591,7 +616,7 @@ function calcBeneficit() {
 
             LCLs.push(LCL);
 
-            //CODE
+            //CODE create table
             var divObject = document.createElement('div');
             divObject.classList.add("w3-containery");
             divObject.classList.add("w3-light-grey");
@@ -648,8 +673,14 @@ function calcBeneficit() {
             divObject.querySelector("#lclPerCent").appendChild(row);
 
             document.querySelector("#listCnLCL").appendChild(divObject);
+
+            totGuadagno += subTot;
         }
+
+
     }
+
+    alert(formatter.format(totGuadagno));//per calcolo totale 
 
     saveResultBeneficit = LCLs;
 
@@ -664,10 +695,10 @@ function convertTYPE(type) {
             typeLCL = "M2";
             break;
         case "MF-R":
-            typeLCL = "MF-TF Recuperi";
+            typeLCL = "MF-TF Ripassi";
             break;
         case "TF-R":
-            typeLCL = "TF-15/30 Recuperi";
+            typeLCL = "TF-15/30 Ripassi";
             break;
         case "MF":
             typeLCL = "MF-TF";
