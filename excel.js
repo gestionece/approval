@@ -547,8 +547,16 @@ function saveCalcTableLCL(evt) {
                  warningTriangleRipassi = '<span class="w3-text-orange">&#x26A0;</span>';
             }
 
+            var jsonCalcTable = loadOptions();
+            var nameCN = saveListLCL[i].CN;
+            for (let cnI = 0; cnI < jsonCalcTable.EUP.length; cnI++) {
+                if (saveListLCL[i].CN == jsonCalcTable.EUP[cnI].key) {
+                    nameCN = jsonCalcTable.EUP[cnI].label;
+                }
+            }
+
             var typeLCL = convertTYPE(saveListLCL[i].TYPE);
-            evt.currentTarget.myParam.innerHTML = warningTriangleRipassi + '<b>' + saveListLCL[i].LCL + '</b><i class="w3-tiny"> (' + saveListLCL[i].CN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
+            evt.currentTarget.myParam.innerHTML = warningTriangleRipassi + '<b>' + saveListLCL[i].LCL + '</b><i class="w3-tiny"> (' + nameCN + ', ' + typeLCL + ')</i><span onclick="changeCN(this.parentElement)" class="w3-button w3-transparent w3-display-right">&times;</span>';
         }
     }
 
