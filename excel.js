@@ -602,7 +602,7 @@ function calcBeneficit() {
                     LCL.TOT += 1;
                     if (saveLoadFile[ii]["Stato OdL"].localeCompare("Annullato") == 0) {
                         LCL.ANN += 1;
-                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && (saveLoadFile[ii]["Causale Esito"].localeCompare("OK FINALE") == 0 || saveLoadFile[ii]["Causale Esito"].localeCompare("CHIUSO DA BACK OFFICE") == 0)) {
+                    } else if (saveLoadFile[ii]["Esito"].localeCompare("OK") == 0 ) {
                         LCL.CON += 1;
 
                         const diffTime = Math.abs(new Date(LCL.DATE) - convertDate(saveLoadFile[ii]["Data e ora fine esecuzione"]));
@@ -615,7 +615,7 @@ function calcBeneficit() {
                             LCL.GG3 += 1;
                         }
 
-                    } else if (saveLoadFile[ii]["Stato OdL"].localeCompare("Chiuso") == 0 && saveLoadFile[ii]["Causale Esito"].localeCompare("Chiusura Giornata Lavorativa") != 0) {
+                    } else if (saveLoadFile[ii]["Esito"].localeCompare("KO") == 0) {
                         LCL.AV += 1;
                     }
 
