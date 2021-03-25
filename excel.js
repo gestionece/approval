@@ -202,7 +202,7 @@ let nevCalcTable = {
             "filter": "MF-R",
             "key": "GG3",
             "value": 1.50
-        }, {
+        }/*, {
             "label": "Eseguiti <30 Giorni  TF15/30",
             "filter": "TF-R",
             "key": "GG1",
@@ -217,7 +217,7 @@ let nevCalcTable = {
             "filter": "TF-R",
             "key": "GG3",
             "value": 1.50
-        }
+        }*/
     ]
 }
 
